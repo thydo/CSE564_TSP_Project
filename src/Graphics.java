@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class Graphics {
 	JFrame frame;
@@ -22,6 +23,11 @@ public class Graphics {
 		JLabel dataPromptLabel = new JLabel("Would you like to view Symmetric or Asymmetric data?");
 		
 		JButton symmetricButton = new JButton("Symmetric");
+		symmetricButton.addActionListener(new ActionListener() { 
+			  public void actionPerformed(ActionEvent e) { 
+			    displaySymmetric();
+			  } 
+			} );
 		JButton asymmetricButton = new JButton("Asymmetric");
 	    
 		labelPanel.add(dataPromptLabel);
@@ -34,6 +40,11 @@ public class Graphics {
 	    
 	    frame.add(mainPanel);
 	    setGraphics();
+	}
+	
+	public void displaySymmetric()
+	{
+		
 	}
 	
 	public void setGraphics() {
