@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class Graphics {
+
+	double[][] tsp;
 	private JFrame frame;
 	JPanel mainPanel;
 	public Graphics(){
@@ -14,10 +16,12 @@ public class Graphics {
 		mainPanel = new JPanel();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setGraphics();
+		
 	}
 	
-	public void Start()
+	public double[][] Start() throws IOException
 	{
+		
 		JPanel labelPanel = new JPanel(new GridLayout(1,1, 10, 20));
 		labelPanel.setBorder(new EmptyBorder(10,10,10,10));
 		
@@ -27,19 +31,30 @@ public class Graphics {
 		JLabel dataPromptLabel = new JLabel("Would you like to view Symmetric or Asymmetric data?");
 		
 		JButton symmetricButton = new JButton("Symmetric");
-		symmetricButton.addActionListener(new ActionListener() { 
-			  public void actionPerformed(ActionEvent e) { 
-			    displaySymmetric();
+		String path = "src/Data/";
+		symmetricButton.addActionListener (new ActionListener() { 
+			  public void actionPerformed(ActionEvent e){ 
+				try {
+					SymmetricData sym = new SymmetricData(path + "SymmetricData/");
+					tsp = displaySymmetric(sym);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			  } 
-			} );
+			} ) ;
 		
 		JButton asymmetricButton = new JButton("Asymmetric");
 		asymmetricButton.addActionListener(new ActionListener() { 
-			  public void actionPerformed(ActionEvent e) { 
-			    displayAsymmetric();
+			  public void actionPerformed(ActionEvent e){ 
+				try {
+					AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
+					tsp = displayAsymmetric(asym);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			  } 
 			} );
-		
+
 		labelPanel.add(dataPromptLabel);
 		
 	    buttonPanel.add(asymmetricButton);
@@ -49,6 +64,7 @@ public class Graphics {
 	    mainPanel.add(buttonPanel);
 	    
 	    setGraphics();
+		return tsp;
 	}
 	
 	public JTable GetJTable(ArrayList<String[]> fileList)
@@ -70,11 +86,10 @@ public class Graphics {
 		return table;
 	}
 	
-	public void displaySymmetric()
+	public double[][] displaySymmetric(SymmetricData sym) throws IOException
 	{
-		System.out.println("SYMMETRICCC");
-		
-		ArrayList<String[]> fileList = Main.sym.GetFileList();
+		ArrayList<String[]> fileList = sym.GetFileList();
+		double[][] tsp = sym.GetData("src/Data/SymmetricData/qa194.tsp", 194);
 		JTable table = GetJTable(fileList);
 		table.setDefaultEditor(Object.class, null);
 		
@@ -84,7 +99,7 @@ public class Graphics {
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	        	try {
-					Main.sym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+					sym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
@@ -94,14 +109,14 @@ public class Graphics {
 		mainPanel.removeAll();
 		mainPanel.add(scrollPane);
 		setGraphics();
+		return tsp;
 	}
 	
-	
-	
-	public void displayAsymmetric()
+	public double[][] displayAsymmetric(AsymmetricData asym) throws IOException
 	{
-		System.out.println("AAAASYMMETRICCC");
-		ArrayList<String[]> fileList = Main.asym.GetFileList();
+		ArrayList<String[]> fileList = asym.GetFileList();
+		double[][] tsp = asym.GetData("src/Data/AsymmetricData/ry48p.atsp", 48);
+		
 		JTable table = GetJTable(fileList);
 		table.setDefaultEditor(Object.class, null);
 		
@@ -111,7 +126,7 @@ public class Graphics {
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent event) {
 	        	try {
-					Main.asym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+					asym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
@@ -120,6 +135,7 @@ public class Graphics {
 		mainPanel.removeAll();
 		mainPanel.add(scrollPane);
 		setGraphics();
+		return tsp;
 	}
 	
 	public void setGraphics() {

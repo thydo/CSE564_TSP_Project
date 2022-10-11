@@ -1,9 +1,6 @@
 import java.io.*;
 import java.util.*;
-interface MakeGraph{
-    double[][] makeAdjacencyMatrix();
-    void GetData(String dir, int dimension) throws IOException;
-}
+
 public class SymmetricData extends Data implements MakeGraph{
 	private ArrayList<String[]> fileList;
 	private ArrayList<String> dataPoints;
@@ -19,16 +16,14 @@ public class SymmetricData extends Data implements MakeGraph{
     	return fileList;
     }
     
-    public void GetData(String dir, int dimension) throws IOException
+    public double[][] GetData(String dir, int dimension) throws IOException
     {
-//<<<<<<< HEAD
     	this.dataPoints = super.GetDataPoints(dir);
     	this.dataPoints.forEach(item -> {System.out.println (item);});
     	dataPoints = super.GetDataPoints(dir);
-        this.makeAdjacencyMatrix();
-    	//dataPoints.forEach(item -> {System.out.println (item);});
-//>>>>>>> a19d27293e7be849754598e1d5a03957da2da217
+        return this.makeAdjacencyMatrix();
     }
+    
     public double[][] makeAdjacencyMatrix(){
         int cities = this.dataPoints.size();
         double[][] tsp = new double[cities][cities];
@@ -63,4 +58,5 @@ public class SymmetricData extends Data implements MakeGraph{
 
         return tsp;
     } 
+    
 }

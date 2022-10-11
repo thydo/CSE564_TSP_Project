@@ -2,7 +2,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-public class Data {
+public class Data implements FetchingData{
 	private Path directory;
 	private static BufferedReader br;
 	private ArrayList<String[]> fileList;

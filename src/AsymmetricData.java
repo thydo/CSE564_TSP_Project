@@ -1,5 +1,4 @@
 import java.io.*;
-import java.nio.file.*;
 import java.util.*;
 
 public class AsymmetricData extends Data implements MakeGraph{
@@ -19,13 +18,11 @@ public class AsymmetricData extends Data implements MakeGraph{
     	return fileList;
     }
     
-    public void GetData(String dir, int dimension) throws IOException
+    public double[][] GetData(String dir, int dimension) throws IOException
     {
     	dataPoints = super.GetDataPoints(dir);
-    	//dataPoints.forEach(item -> {System.out.println (item);});
-    	//System.out.println(dataPoints.get(0));
         this.dimension = dimension;
-        makeAdjacencyMatrix();
+        return this.makeAdjacencyMatrix();
     }
     
     public double[][] makeAdjacencyMatrix(){
@@ -47,8 +44,7 @@ public class AsymmetricData extends Data implements MakeGraph{
         		tsp[i][j] = elements.get((i*17)+j);
         	}
         }
-        
-        
         return tsp;
     }
+	
 }
