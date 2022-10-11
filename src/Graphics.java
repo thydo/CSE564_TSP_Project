@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Graphics {
-	JFrame frame;
+	private JFrame frame;
 	public Graphics(){
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -28,8 +28,14 @@ public class Graphics {
 			    displaySymmetric();
 			  } 
 			} );
+		
 		JButton asymmetricButton = new JButton("Asymmetric");
-	    
+		asymmetricButton.addActionListener(new ActionListener() { 
+			  public void actionPerformed(ActionEvent e) { 
+			    displayAsymmetric();
+			  } 
+			} );
+		
 		labelPanel.add(dataPromptLabel);
 		
 	    buttonPanel.add(asymmetricButton);
@@ -44,7 +50,12 @@ public class Graphics {
 	
 	public void displaySymmetric()
 	{
-		
+		System.out.println("SYMMETRICCC");
+	}
+	
+	public void displayAsymmetric()
+	{
+		System.out.println("AAAASYMMETRICCC");
 	}
 	
 	public void setGraphics() {
