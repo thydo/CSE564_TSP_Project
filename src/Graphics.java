@@ -3,6 +3,7 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.*;
 
 public class Graphics {
@@ -82,7 +83,12 @@ public class Graphics {
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
-	            System.out.println(fileList.get(table.getSelectedRow())[3].toString());
+	        	try {
+					Main.sym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+				} catch (NumberFormatException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 	        }
 	    });
 		
@@ -96,7 +102,7 @@ public class Graphics {
 	public void displayAsymmetric()
 	{
 		System.out.println("AAAASYMMETRICCC");
-		ArrayList<String[]> fileList = Main.sym.GetFileList();
+		ArrayList<String[]> fileList = Main.asym.GetFileList();
 		JTable table = GetJTable(fileList);
 		table.setDefaultEditor(Object.class, null);
 		
@@ -104,10 +110,14 @@ public class Graphics {
 		table.setFillsViewportHeight(true);
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	            System.out.println(fileList.get(table.getSelectedRow())[3].toString());
-	        }
-	    });
+			public void valueChanged(ListSelectionEvent event) {
+	        	try {
+					Main.asym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+				} catch (NumberFormatException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }	    });
 		
 		mainPanel.removeAll();
 		mainPanel.add(scrollPane);

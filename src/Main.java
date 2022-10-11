@@ -35,7 +35,5 @@ public class Main {
 		asym = new AsymmetricData(path + "AsymmetricData/");
 		sym = new SymmetricData(path + "SymmetricData/");
 
-		asym.GetData("src\\\\Data\\\\AsymmetricData\\\\ry48p.atsp");
-
 	}
 }

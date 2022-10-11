@@ -17,7 +17,7 @@ public class SymmetricData extends Data{
     	return fileList;
     }
     
-    public void GetData(String dir) throws IOException
+    public void GetData(String dir, int dimension) throws IOException
     {
     	dataPoints = super.GetDataPoints(dir);
     	//dataPoints.forEach(item -> {System.out.println (item);});
