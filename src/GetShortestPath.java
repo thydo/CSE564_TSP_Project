@@ -1,6 +1,12 @@
 import java.util.*;
 
-public class GetShortestPath {
+interface shortestPath{
+    void minPath();
+    Set<Integer> getOrderOfCitiesVisited();
+    double getMinDistToVisit();
+}
+
+public class GetShortestPath implements shortestPath{
     private Set<Integer> visitedCities;
     private double minDist;
     private double[][] tsp;
@@ -44,7 +50,7 @@ public class GetShortestPath {
                     break;
                 }
             }
-            
+
             if(this.minDist > currMinDist){
                 this.visitedCities = currVisitedCities;
                 this.minDist = currMinDist;
