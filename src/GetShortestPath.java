@@ -12,7 +12,6 @@ public class GetShortestPath implements shortestPath{
     private double[][] tsp;
 
     GetShortestPath(double[][] tsp){
-        //this.visitedCities = new HashSet<>();
         this.minDist = Double.MAX_VALUE;
         this.tsp = tsp;
     }
