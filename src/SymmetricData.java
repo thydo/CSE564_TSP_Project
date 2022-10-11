@@ -4,16 +4,17 @@ import java.util.*;
 
 public class SymmetricData extends Data{
 	private ArrayList<String[]> fileList;
-	private ArrayList<Object> dataPoints;
+	private ArrayList<String> dataPoints;
     public SymmetricData(String dir) throws IOException
     {
     	super(dir);
     	this.fileList = super.GetFileList();
     }
     
-    public void GetData(String dir)
+    public void GetData(String dir) throws IOException
     {
-    	
+    	dataPoints = super.GetDataPoints(dir);
+    	dataPoints.forEach(item -> {System.out.println (item);});
     }
     
 }

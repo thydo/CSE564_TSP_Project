@@ -4,17 +4,18 @@ import java.util.*;
 
 public class AsymmetricData extends Data{
 	private ArrayList<String[]> fileList;
-	private ArrayList<Object> dataPoints;
+	private ArrayList<String> dataPoints;
     public AsymmetricData(String dir) throws IOException
     {
     	super(dir);
     	this.fileList = super.GetFileList();
-    	fileList.forEach(item -> {System.out.println (item[3]);});
     }
     
-    public void GetData(String dir)
+    public void GetData(String dir) throws IOException
     {
-    	
+    	dataPoints = super.GetDataPoints(dir);
+    	dataPoints.forEach(item -> {System.out.println (item);});
+
     }
     
 }

@@ -6,7 +6,7 @@ public class Data {
 	private Path directory;
 	private static BufferedReader br;
 	private ArrayList<String[]> fileList;
-	private ArrayList<Double[]> dataPoints;
+	private ArrayList<String> dataPoints;
 
 	public Data(String dir) throws IOException
 	{
@@ -64,20 +64,20 @@ public class Data {
 	        while (br.ready())
 	        {
 	        	String next = br.readLine();
-	        	if (next.matches("[0-9]*"))
+	        	if (!(next.charAt(0)>='A' && next.charAt(0) <= 'Z'))
 	        	{
-	        		Double[] d = new Double[2];
-	        		d[0] = Double.parseDouble(next.split("\\s+")[1]);
-	        		d[1] = Double.parseDouble(next.split("\\s+")[2]);
-	        		dataPoints.add(d);
-	        		System.out.println(d);
+	        		dataPoints.add(next);
 	        	}
 	        }
 		}
 	}
 	
-	public void GetDataPoints(String dir)
+	public ArrayList<String> GetDataPoints(String dir) throws IOException
 	{
-		Path p = Path.get(dir)
+		Path p = Paths.get(dir);
+		dataPoints = new ArrayList<String>();
+		ParseData (p.toFile());
+		
+		return dataPoints;
 	}
 }

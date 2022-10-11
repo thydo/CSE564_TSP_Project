@@ -1,12 +1,12 @@
 
 import java.io.IOException;
-port javax.swing.*;
+import javax.swing.*;
 
 public class Main {
 
 	public static void main (String[] args) throws IOException
 	{
-
+/*
 		double[][] tsp = {
             { -1, 10, 15, 20 },
             { 1, -1, 35, 25 },
@@ -25,14 +25,15 @@ public class Main {
 		System.out.println(gsp.getMinDistToVisit());
 		System.out.println(gsp.getOrderOfCitiesVisited());
 		System.out.println("end");
-
+*/
 		Graphics graphics = new Graphics();
 		graphics.Start();
 
 		
 		String path = "src/Data/";
-		Data asym = new AsymmetricData(path + "AsymmetricData/");
-		Data sym = new SymmetricData(path + "SymmetricData/");
+		AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
+		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
+		asym.GetData("src\\\\Data\\\\AsymmetricData\\\\ry48p.atsp");
 
 	}
 }
