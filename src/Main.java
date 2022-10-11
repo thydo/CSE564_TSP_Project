@@ -6,11 +6,9 @@ public class Main {
 	{
 
 		Graphics graphics = new Graphics();
-		double[][] tsp = graphics.Start();
-		System.out.println(tsp[0][45]);
-		GetShortestPath gsp = new GetShortestPath(tsp);
-		gsp.minPath();
-		System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
-		System.out.println("Path to take: "+ gsp.getOrderOfCitiesVisited());
+		graphics.Start();
+		//double[][] tsp = graphics.Start();
+		//System.out.println(tsp[0][45]);
+		
 	}
 }

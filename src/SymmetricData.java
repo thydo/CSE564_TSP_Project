@@ -25,6 +25,7 @@ public class SymmetricData extends Data implements MakeGraph{
     }
     
     public double[][] makeAdjacencyMatrix(){
+
         int cities = this.dataPoints.size();
         double[][] tsp = new double[cities][cities];
 

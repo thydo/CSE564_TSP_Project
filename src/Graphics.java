@@ -7,21 +7,19 @@ import java.io.IOException;
 import java.util.*;
 
 public class Graphics {
-
-	double[][] tsp;
+	final String path = "src/Data/";
 	private JFrame frame;
 	JPanel mainPanel;
+	//GetShortestPath gsp; 
 	public Graphics(){
 		frame = new JFrame();
 		mainPanel = new JPanel();
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setGraphics();
-		
 	}
 	
-	public double[][] Start() throws IOException
+	public void Start() throws IOException
 	{
-		
 		JPanel labelPanel = new JPanel(new GridLayout(1,1, 10, 20));
 		labelPanel.setBorder(new EmptyBorder(10,10,10,10));
 		
@@ -31,12 +29,11 @@ public class Graphics {
 		JLabel dataPromptLabel = new JLabel("Would you like to view Symmetric or Asymmetric data?");
 		
 		JButton symmetricButton = new JButton("Symmetric");
-		String path = "src/Data/";
+		
 		symmetricButton.addActionListener (new ActionListener() { 
 			  public void actionPerformed(ActionEvent e){ 
 				try {
-					SymmetricData sym = new SymmetricData(path + "SymmetricData/");
-					tsp = displaySymmetric(sym);
+					displaySymmetric();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -47,8 +44,7 @@ public class Graphics {
 		asymmetricButton.addActionListener(new ActionListener() { 
 			  public void actionPerformed(ActionEvent e){ 
 				try {
-					AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
-					tsp = displayAsymmetric(asym);
+					displayAsymmetric();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -64,7 +60,6 @@ public class Graphics {
 	    mainPanel.add(buttonPanel);
 	    
 	    setGraphics();
-		return tsp;
 	}
 	
 	public JTable GetJTable(ArrayList<String[]> fileList)
@@ -86,10 +81,10 @@ public class Graphics {
 		return table;
 	}
 	
-	public double[][] displaySymmetric(SymmetricData sym) throws IOException
+	public void displaySymmetric() throws IOException
 	{
+		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
 		ArrayList<String[]> fileList = sym.GetFileList();
-		double[][] tsp = sym.GetData("src/Data/SymmetricData/qa194.tsp", 194);
 		JTable table = GetJTable(fileList);
 		table.setDefaultEditor(Object.class, null);
 		
@@ -99,7 +94,11 @@ public class Graphics {
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	        	try {
-					sym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+					double[][] tsp = sym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+					GetShortestPath gsp = new GetShortestPath(tsp);
+					gsp.minPath();
+					System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
+					System.out.println("Path to take: "+ gsp.getOrderOfCitiesVisited());
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
@@ -109,14 +108,12 @@ public class Graphics {
 		mainPanel.removeAll();
 		mainPanel.add(scrollPane);
 		setGraphics();
-		return tsp;
 	}
 	
-	public double[][] displayAsymmetric(AsymmetricData asym) throws IOException
+	public void displayAsymmetric() throws IOException
 	{
+		AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
 		ArrayList<String[]> fileList = asym.GetFileList();
-		double[][] tsp = asym.GetData("src/Data/AsymmetricData/ry48p.atsp", 48);
-		
 		JTable table = GetJTable(fileList);
 		table.setDefaultEditor(Object.class, null);
 		
@@ -124,18 +121,21 @@ public class Graphics {
 		table.setFillsViewportHeight(true);
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+
 			public void valueChanged(ListSelectionEvent event) {
 	        	try {
-					asym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+					double[][] tsp = asym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+					GetShortestPath gsp = new GetShortestPath(tsp);
+					gsp.minPath();
+					System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
+					System.out.println("Path to take: "+ gsp.getOrderOfCitiesVisited());
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
 	        }	    });
-		
 		mainPanel.removeAll();
 		mainPanel.add(scrollPane);
 		setGraphics();
-		return tsp;
 	}
 	
 	public void setGraphics() {
