@@ -5,21 +5,18 @@ public class AsymmetricData extends Data implements MakeGraph{
 	private ArrayList<String[]> fileList;
 	private ArrayList<String> dataPoints;
     private int dimension;
-    public AsymmetricData(String dir) throws IOException
-    {
+    public AsymmetricData(String dir) throws IOException {
     	super(dir);
     	this.fileList = super.GetFileList();
     }
     
-    public ArrayList<String[]> GetFiles()
-    {
+    public ArrayList<String[]> GetFiles() {
     	this.fileList = super.GetFileList();
 
     	return fileList;
     }
     
-    public double[][] GetData(String dir, int dimension) throws IOException
-    {
+    public double[][] GetData(String dir, int dimension) throws IOException {
     	dataPoints = super.GetDataPoints(dir);
         this.dimension = dimension;
         return this.makeAdjacencyMatrix();

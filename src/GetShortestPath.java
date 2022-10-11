@@ -1,11 +1,5 @@
 import java.util.*;
 
-interface ShortestPath{
-    void minPath();
-    Set<Integer> getOrderOfCitiesVisited();
-    double getMinDistToVisit();
-}
-
 public class GetShortestPath implements ShortestPath{
     private Set<Integer> visitedCities;
     private double minDist;
