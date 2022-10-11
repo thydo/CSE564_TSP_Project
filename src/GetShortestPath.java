@@ -1,12 +1,12 @@
 import java.util.*;
 
-interface shortestPath{
+interface ShortestPath{
     void minPath();
     Set<Integer> getOrderOfCitiesVisited();
     double getMinDistToVisit();
 }
 
-public class GetShortestPath implements shortestPath{
+public class GetShortestPath implements ShortestPath{
     private Set<Integer> visitedCities;
     private double minDist;
     private double[][] tsp;
@@ -23,7 +23,7 @@ public class GetShortestPath implements shortestPath{
             Set<Integer> currVisitedCities = new LinkedHashSet<>();
             double currMinDist = 0;
 
-            currVisitedCities.add(srcCity);
+            currVisitedCities.add(srcCity+1);
             int localCity = srcCity;
 
             while(true){
@@ -32,7 +32,7 @@ public class GetShortestPath implements shortestPath{
 
                 for( int i = 0; i < this.tsp.length; i++){
 
-                    if(i == localCity || currVisitedCities.contains(i))
+                    if(i == localCity || currVisitedCities.contains(i+1))
                         continue;
 
                     if(this.tsp[localCity][i] < localMinDist){
@@ -40,12 +40,13 @@ public class GetShortestPath implements shortestPath{
                         localMinDist = this.tsp[localCity][i];
                     }
                 }
-                currVisitedCities.add(localMinCity);
+                currVisitedCities.add(localMinCity+1);
                 currMinDist += localMinDist;
                 localCity = localMinCity;
 
                 if(currVisitedCities.size() == this.tsp.length){
                     currMinDist += this.tsp[localCity][srcCity];
+                    currVisitedCities.add(srcCity+1);
                     break;
                 }
             }
