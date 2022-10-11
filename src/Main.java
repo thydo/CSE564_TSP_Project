@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 //import javax.swing.JFrame;
+=======
+import javax.swing.*;
+>>>>>>> a8aa7a7d603b32344e66bfb5a4e67b71fcec8e25
 
 public class Main {
 
 	public static void main (String[] args)
 	{
+<<<<<<< HEAD
 		// JFrame frame = new JFrame();
 		// frame.setVisible(true);
 		double[][] tsp = {
@@ -24,5 +29,9 @@ public class Main {
 		System.out.println(gsp.getMinDistToVisit());
 		System.out.println(gsp.getOrderOfCitiesVisited());
 		System.out.println("end");
+=======
+		Graphics graphics = new Graphics();
+		graphics.Start();
+>>>>>>> a8aa7a7d603b32344e66bfb5a4e67b71fcec8e25
 	}
 }
