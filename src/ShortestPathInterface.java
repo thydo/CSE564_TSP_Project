@@ -1,6 +1,6 @@
 import java.util.Set;
 
-interface ShortestPath{
+interface ShortestPathInterface{
     void minPath();
     Set<Integer> getOrderOfCitiesVisited();
     double getMinDistToVisit();

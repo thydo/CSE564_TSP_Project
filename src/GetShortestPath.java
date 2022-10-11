@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class GetShortestPath implements ShortestPath{
+public class GetShortestPath implements ShortestPathInterface{
     private Set<Integer> visitedCities;
     private double minDist;
     private double[][] tsp;

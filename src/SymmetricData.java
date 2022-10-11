@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class SymmetricData extends Data implements MakeGraph {
+public class SymmetricData extends Data implements MakeGraphInterface {
 	private ArrayList<String[]> fileList;
 	private ArrayList<String> dataPoints;
     public SymmetricData(String dir) throws IOException {

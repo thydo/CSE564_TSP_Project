@@ -6,11 +6,10 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.*;
 
-public class Graphics {
+public class Graphics implements GraphicsInterface{
 	final String path = "src/Data/";
 	private JFrame frame;
 	JPanel mainPanel;
-	//GetShortestPath gsp; 
 	public Graphics(){
 		frame = new JFrame();
 		mainPanel = new JPanel();

@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-interface FetchingData{
+interface FetchingDataInterface{
     ArrayList<String[]> GetFileList();
     void ParseInfo (File file) throws IOException;
     void ParseData(File file) throws IOException;

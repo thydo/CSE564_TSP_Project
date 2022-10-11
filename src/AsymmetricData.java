@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class AsymmetricData extends Data implements MakeGraph{
+public class AsymmetricData extends Data implements MakeGraphInterface{
 	private ArrayList<String[]> fileList;
 	private ArrayList<String> dataPoints;
     private int dimension;
