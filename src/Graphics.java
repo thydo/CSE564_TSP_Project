@@ -86,7 +86,6 @@ public class Graphics {
 	        	try {
 					Main.sym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
 				} catch (NumberFormatException | IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	        }
@@ -114,7 +113,6 @@ public class Graphics {
 	        	try {
 					Main.asym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
 				} catch (NumberFormatException | IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	        }	    });

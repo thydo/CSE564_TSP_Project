@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 interface MakeGraph{
     double[][] makeAdjacencyMatrix();
-    void GetData(String dir) throws IOException;
+    void GetData(String dir, int dimension) throws IOException;
 }
 public class SymmetricData extends Data implements MakeGraph{
 	private ArrayList<String[]> fileList;
@@ -25,6 +25,7 @@ public class SymmetricData extends Data implements MakeGraph{
     	this.dataPoints = super.GetDataPoints(dir);
     	this.dataPoints.forEach(item -> {System.out.println (item);});
     	dataPoints = super.GetDataPoints(dir);
+        this.makeAdjacencyMatrix();
     	//dataPoints.forEach(item -> {System.out.println (item);});
 //>>>>>>> a19d27293e7be849754598e1d5a03957da2da217
     }

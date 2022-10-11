@@ -2,9 +2,10 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-public class AsymmetricData extends Data{
+public class AsymmetricData extends Data implements MakeGraph{
 	private ArrayList<String[]> fileList;
 	private ArrayList<String> dataPoints;
+    private int dimension;
     public AsymmetricData(String dir) throws IOException
     {
     	super(dir);
@@ -23,6 +24,14 @@ public class AsymmetricData extends Data{
     	dataPoints = super.GetDataPoints(dir);
     	dataPoints.forEach(item -> {System.out.println (item);});
     	System.out.println(dataPoints.get(0));
+        this.dimension = dimension;
+        makeAdjacencyMatrix();
     }
     
+    public double[][] makeAdjacencyMatrix(){
+        int cities = this.dataPoints.size();
+        double[][] tsp = new double[cities][cities];
+
+        return tsp;
+    }
 }
