@@ -8,13 +8,19 @@ public class SymmetricData extends Data{
     public SymmetricData(String dir) throws IOException
     {
     	super(dir);
+    }
+    
+    public ArrayList<String[]> GetFiles()
+    {
     	this.fileList = super.GetFileList();
+
+    	return fileList;
     }
     
     public void GetData(String dir) throws IOException
     {
     	dataPoints = super.GetDataPoints(dir);
-    	dataPoints.forEach(item -> {System.out.println (item);});
+    	//dataPoints.forEach(item -> {System.out.println (item);});
     }
     
 }

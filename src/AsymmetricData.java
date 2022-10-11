@@ -11,10 +11,17 @@ public class AsymmetricData extends Data{
     	this.fileList = super.GetFileList();
     }
     
+    public ArrayList<String[]> GetFiles()
+    {
+    	this.fileList = super.GetFileList();
+
+    	return fileList;
+    }
+    
     public void GetData(String dir) throws IOException
     {
     	dataPoints = super.GetDataPoints(dir);
-    	dataPoints.forEach(item -> {System.out.println (item);});
+    	//dataPoints.forEach(item -> {System.out.println (item);});
 
     }
     
