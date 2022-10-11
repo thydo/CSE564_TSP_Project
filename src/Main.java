@@ -3,7 +3,8 @@ import java.io.IOException;
 import javax.swing.*;
 
 public class Main {
-
+	public static AsymmetricData asym;
+	public static SymmetricData sym;
 	public static void main (String[] args) throws IOException
 	{
 /*
@@ -31,8 +32,9 @@ public class Main {
 
 		
 		String path = "src/Data/";
-		AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
-		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
+		asym = new AsymmetricData(path + "AsymmetricData/");
+		sym = new SymmetricData(path + "SymmetricData/");
+
 		asym.GetData("src\\\\Data\\\\AsymmetricData\\\\ry48p.atsp");
 
 	}

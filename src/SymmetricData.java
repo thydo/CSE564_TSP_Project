@@ -10,13 +10,23 @@ public class SymmetricData extends Data implements MakeGraph{
     public SymmetricData(String dir) throws IOException
     {
     	super(dir);
+    }
+    
+    public ArrayList<String[]> GetFiles()
+    {
     	this.fileList = super.GetFileList();
+
+    	return fileList;
     }
     
     public void GetData(String dir) throws IOException
     {
+//<<<<<<< HEAD
     	this.dataPoints = super.GetDataPoints(dir);
     	this.dataPoints.forEach(item -> {System.out.println (item);});
+    	dataPoints = super.GetDataPoints(dir);
+    	//dataPoints.forEach(item -> {System.out.println (item);});
+//>>>>>>> a19d27293e7be849754598e1d5a03957da2da217
     }
     public double[][] makeAdjacencyMatrix(){
         int cities = this.dataPoints.size();
