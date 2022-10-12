@@ -19,9 +19,20 @@ public class SymmetricData extends Data implements MakeGraph{
     public double[][] GetData(String dir, int dimension) throws IOException
     {
     	this.dataPoints = super.GetDataPoints(dir);
-    	this.dataPoints.forEach(item -> {System.out.println (item);});
+    	//this.dataPoints.forEach(item -> {System.out.println (item);});
     	dataPoints = super.GetDataPoints(dir);
         return this.makeAdjacencyMatrix();
+    }
+    
+    public ArrayList<String[]> GetCityCoords()
+    {
+    	ArrayList<String[]> cityList = new ArrayList<String[]>();
+    	this.dataPoints.forEach(city ->
+    	{
+    		String[] c = city.split("\\s+");
+    		cityList.add(c);
+    	});
+    	return cityList;
     }
     
     public double[][] makeAdjacencyMatrix(){
