@@ -1,5 +1,5 @@
 import java.io.*;
-
+import java.util.*;
 /**
  * The SymmetricData class is inheriting the Data class and implementing the 
  * FetchingDataInterfaceMatrix interface and creating a 2-Dimensional
@@ -32,18 +32,32 @@ public class SymmetricData extends Data implements FetchingDataInterfaceMatrix {
      */
     public double[][] GetDataPoints(String dir, int dimension) throws IOException {
     	this.dataPoints = super.GetDataPoints(dir);
-    	this.dataPoints.forEach(item -> {System.out.println (item);});
-    	this.dataPoints = super.GetDataPoints(dir);
+    	//this.dataPoints.forEach(item -> {System.out.println (item);});
+    	dataPoints = super.GetDataPoints(dir);
         return this.makeAdjacencyMatrix();
     }
     
+
     /**
      * The makeAdjacencyMatrix method uses the parsed data to create 
      * the 2-Dimensional matrix of distances between cities.
      * 
      * @return the 2-Dimensional matrix of distances between cities.
      */
-    private double[][] makeAdjacencyMatrix() {
+   // private double[][] makeAdjacencyMatrix() {
+    public ArrayList<String[]> GetCityCoords()
+    {
+    	ArrayList<String[]> cityList = new ArrayList<String[]>();
+    	this.dataPoints.forEach(city ->
+    	{
+    		String[] c = city.split("\\s+");
+    		cityList.add(c);
+    	});
+    	return cityList;
+    }
+    
+    public double[][] makeAdjacencyMatrix(){
+//>>>>>>> 8560c74d6a473b22ee7794b0c149286a68838971
         int cities = this.dataPoints.size();
         double[][] tsp = new double[cities][cities];
 
