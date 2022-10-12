@@ -1,17 +1,34 @@
 import java.io.*;
-import java.util.*;
 
+/**
+ * The SymmetricData class is inheriting the Data class and creating a 2-Dimensional
+ * matrix of distances between cities.
+ */
 public class SymmetricData extends Data {
     
-    public SymmetricData(String dir) throws IOException {
+    /**
+     * Constructor for class SymmetricData, calling constructor of its parent.
+     * 
+     * @param dir the path to the directory containing the list of Symmetric files 
+     * to choose from.
+     * @throws IOException signals if any IO exception occurred while reading
+	 * the files.
+     */
+    SymmetricData(String dir) throws IOException {
     	super(dir);
     }
     
-    protected ArrayList<String[]> GetFileList() {
-    	this.fileList = super.GetFileList();
-    	return this.fileList;
-    }
-    
+    /**
+     * This is an overridden method of parent class to include dimension 
+     * required for the matrix and to return the 2-Dimensional matrix 
+     * instead of ArrayList of points.
+     * 
+     * @param dir the path to the directory containing the file to be parsed.
+     * @param dimension dimension for the 2-Dimensional matrix to be formed.
+     * @return the 2-Dimensional matrix of distances between cities.
+     * @throws IOException signals if any IO exception occurred while reading
+	 * the files.
+     */
     public double[][] GetDataPoints(String dir, int dimension) throws IOException {
     	this.dataPoints = super.GetDataPoints(dir);
     	this.dataPoints.forEach(item -> {System.out.println (item);});
@@ -19,6 +36,12 @@ public class SymmetricData extends Data {
         return this.makeAdjacencyMatrix();
     }
     
+    /**
+     * The makeAdjacencyMatrix method uses the parsed data to create 
+     * the 2-Dimensional matrix of distances between cities.
+     * 
+     * @return the 2-Dimensional matrix of distances between cities.
+     */
     private double[][] makeAdjacencyMatrix() {
         int cities = this.dataPoints.size();
         double[][] tsp = new double[cities][cities];
