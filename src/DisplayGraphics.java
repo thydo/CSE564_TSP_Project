@@ -5,15 +5,18 @@ import javax.swing.plaf.multi.MultiLabelUI;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
-public class Graphics implements GraphicsInterface {
+public class DisplayGraphics implements GraphicsInterface {
 	final String path = "src/Data/";
 	private JFrame frame;
 	JPanel mainPanel;
 
-	public Graphics(){
+	public DisplayGraphics(){
 		this.frame = new JFrame();
 		this.mainPanel = new JPanel();
         this.mainPanel.setBorder(new EmptyBorder(10,10,10,10));
@@ -87,7 +90,7 @@ public class Graphics implements GraphicsInterface {
 	
 	public void displaySymmetric() throws IOException {
 		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
-		ArrayList<String[]> fileList = sym.GetFiles();
+		ArrayList<String[]> fileList = sym.GetFileList();
 		JTable table = GetJTable(fileList);
 
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -96,7 +99,9 @@ public class Graphics implements GraphicsInterface {
 	        public void valueChanged(ListSelectionEvent event) {
 	        	try {
 	        		String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
-					RunAlgorithm(sel, sym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString())), true);
+					double[][] tsp = sym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+	        		ArrayList<String[]> cityList = sym.GetCityCoords();
+	        		RunAlgorithm(cityList, sel, tsp , true);
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
@@ -110,7 +115,7 @@ public class Graphics implements GraphicsInterface {
 	
 	public void displayAsymmetric() throws IOException {
 		AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
-		ArrayList<String[]> fileList = asym.GetFiles();
+		ArrayList<String[]> fileList = asym.GetFileList();
 		JTable table = GetJTable(fileList);
 		
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -119,7 +124,8 @@ public class Graphics implements GraphicsInterface {
 			public void valueChanged(ListSelectionEvent event) {
 	        	try {
 	        		String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
-				} catch (NumberFormatException | IOException e) {
+	        		RunAlgorithm(null, sel, asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString())), false);
+	        	} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
 	        }	    });
@@ -128,12 +134,12 @@ public class Graphics implements GraphicsInterface {
 		setGraphics();
 	}
 	
-	public void RunAlgorithm (String[] info, double[][] tsp, boolean isSym)
+	public void RunAlgorithm (ArrayList<String[]> cityCoords, String[] info, double[][] tsp, boolean isSym)
 	{
 		GetShortestPath gsp = new GetShortestPath(tsp);
 		gsp.minPath();
 		System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
-		System.out.println("Path to take: "+ gsp.getOrderOfCitiesVisited());
+		System.out.println("Path to take: "+ gsp.getOrderOfCities());
 		
 		mainPanel.removeAll();
 		
@@ -144,7 +150,7 @@ public class Graphics implements GraphicsInterface {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBorder(new EmptyBorder(10,10,10,10));
 		
-		JPanel outputPanel = new JPanel(new GridLayout(1,1, 10, 20));
+		JPanel outputPanel = new JPanel();
 		outputPanel.setBorder(new EmptyBorder(10,10,10,10));
 		outputPanel.setLayout(new BoxLayout(outputPanel, BoxLayout.Y_AXIS));
 		
@@ -165,32 +171,55 @@ public class Graphics implements GraphicsInterface {
 	    outputPanel.add(pathLabel);
 		if (isSym)
 		{
-			outputPanel.add(DisplaySymmetricOutput(gsp));
-			System.out.print(tsp[0][0]);
+			outputPanel.add(DisplaySymmetricOutput(gsp, cityCoords));
 		}
 		else
 		{
 			outputPanel.add(DisplayAsymmetricOutput(gsp));
 		}
-
-		mainPanel.add(labelPanel);
-		mainPanel.add(outputPanel);
-		mainPanel.add(buttonPanel);
-		mainPanel.setAutoscrolls(true);
-
+		this.mainPanel.add(labelPanel);
+		this.mainPanel.add(outputPanel);
+		this.mainPanel.add(buttonPanel);
 		setGraphics();
 		
 	}
 	
-	public JLabel DisplaySymmetricOutput(GetShortestPath gsp)
+	public JPanel DisplaySymmetricOutput(GetShortestPath gsp, ArrayList<String[]> cityList)
 	{
-		JLabel distLabel = new JLabel();
-		return distLabel;		
+		List<Integer> cityOrder = gsp.getOrderOfCities();
+		JPanel panel = new JPanel();
+		JPanel plot = new JPanel(){
+			@Override
+            protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Graphics2D graph = (Graphics2D) g;
+            	graph.setPaint(Color.MAGENTA);
+            	graph.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        		
+            	int scale = 30;
+            	for (int city = 0; city < cityOrder.size(); city++)
+        	    {
+        	    	double x = Double.parseDouble(cityList.get(cityOrder.get(city)-1)[1])/scale;
+        	    	double y = Double.parseDouble(cityList.get(cityOrder.get(city)-1)[2])/scale;
+        	    	graph.fill(new Ellipse2D.Double(x - 600,- y + 600,3,3));
+        	    }
+            }
+        };
+	    JLabel label = new JLabel("<html><p style=\"width:100px\">"+ cityOrder.toString()+"\"</p></html>");
+	    panel.add(label);
+	    JFrame f = new JFrame();
+	    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    f.add(plot);
+	    f.setSize(400,400);
+	    f.setLocationRelativeTo(null);
+	    f.setVisible(true);
+		return panel;		
 	}
+
 	
 	public JLabel DisplayAsymmetricOutput(GetShortestPath gsp)
 	{
-	    JLabel label = new JLabel("<html><p style=\"width:100px\">"+gsp.getOrderOfCitiesVisited().toString()+"\"</p></html>");
+	    JLabel label = new JLabel("<html><p style=\"width:100px\">"+gsp.getOrderOfCities().toString()+"\"</p></html>");
 
 		return label;
 	}
