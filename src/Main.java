@@ -2,13 +2,8 @@
 import java.io.IOException;
 
 public class Main {
-	public static void main (String[] args) throws IOException
-	{
-
+	public static void main (String[] args) throws IOException {
 		Graphics graphics = new Graphics();
 		graphics.Start();
-		//double[][] tsp = graphics.Start();
-		//System.out.println(tsp[0][45]);
-		
 	}
 }

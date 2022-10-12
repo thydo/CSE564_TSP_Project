@@ -1,7 +1,9 @@
 import java.util.*;
 
-public class GetShortestPath implements ShortestPath{
+
+public class GetShortestPath implements ShortestPathInterface {
     private Set<Integer> visitedCities;
+    private List<Integer> orderOfCities;
     private double minDist;
     private double[][] tsp;
 
@@ -10,8 +12,7 @@ public class GetShortestPath implements ShortestPath{
         this.tsp = tsp;
     }
 
-	public void minPath(){
-        
+	public void minPath(){  
         for(int srcCity = 0 ; srcCity < tsp.length; srcCity++){
 
             Set<Integer> currVisitedCities = new LinkedHashSet<>();
@@ -51,9 +52,14 @@ public class GetShortestPath implements ShortestPath{
             }
         }
     }
-    public Set<Integer> getOrderOfCitiesVisited(){
-        return this.visitedCities;
+    
+    public List<Integer> getOrderOfCities(){
+        this.orderOfCities = new ArrayList<>();
+        this.orderOfCities.addAll(this.visitedCities);
+        this.orderOfCities.add(this.orderOfCities.get(0));
+        return this.orderOfCities;
     }
+
     public double getMinDistToVisit(){
         return this.minDist;
     }

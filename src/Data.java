@@ -2,32 +2,31 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-public class Data implements FetchingData{
+public class Data implements FetchingDataInterface{
 	private Path directory;
 	private static BufferedReader br;
-	private ArrayList<String[]> fileList;
-	private ArrayList<String> dataPoints;
+	protected ArrayList<String[]> fileList;
+	protected ArrayList<String> dataPoints;
 
-	public Data(String dir) throws IOException
-	{
-		fileList = new ArrayList<String[]>();
+	public Data(String dir) throws IOException {
+		this.fileList = new ArrayList<String[]>();
 		this.directory = Paths.get(dir);
 		
 		Files.walk(this.directory).forEach(path -> {
 			try {
-				ParseInfo (path.toFile());
+				this.ParseInfo (path.toFile());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		});
 
 	}
-	public ArrayList<String[]> GetFileList()
-	{
+
+	protected ArrayList<String[]> GetFileList(){
 		return this.fileList;
 	}
 
-	public void ParseInfo (File file) throws IOException {
+	private void ParseInfo (File file) throws IOException {
 		if (!file.isDirectory()) {
 	        br = new BufferedReader(new FileReader(file));
 	        String[] fileInfo = new String[4];
@@ -57,8 +56,7 @@ public class Data implements FetchingData{
 		}
 	}
 	
-	public void ParseData(File file) throws IOException
-	{
+	private void ParseData(File file) throws IOException {
 		if (!file.isDirectory()) {
 	        br = new BufferedReader(new FileReader(file));
 	        while (br.ready())
@@ -66,18 +64,17 @@ public class Data implements FetchingData{
 	        	String next = br.readLine();
 	        	if (!(next.charAt(0)>='A' && next.charAt(0) <= 'Z'))
 	        	{
-	        		dataPoints.add(next);
+	        		this.dataPoints.add(next);
 	        	}
 	        }
 		}
 	}
 	
-	public ArrayList<String> GetDataPoints(String dir) throws IOException
-	{
+	public ArrayList<String> GetDataPoints(String dir) throws IOException {
 		Path p = Paths.get(dir);
-		dataPoints = new ArrayList<String>();
-		ParseData (p.toFile());
+		this.dataPoints = new ArrayList<String>();
+		this.ParseData (p.toFile());
 		
-		return dataPoints;
+		return this.dataPoints;
 	}
 }

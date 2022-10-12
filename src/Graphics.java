@@ -8,21 +8,20 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.*;
 
-public class Graphics {
+public class Graphics implements GraphicsInterface {
 	final String path = "src/Data/";
 	private JFrame frame;
 	JPanel mainPanel;
-	//GetShortestPath gsp; 
+
 	public Graphics(){
-		frame = new JFrame();
-		mainPanel = new JPanel();
-		mainPanel.setBorder(new EmptyBorder(10,10,10,10));
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.frame = new JFrame();
+		this.mainPanel = new JPanel();
+        this.mainPanel.setBorder(new EmptyBorder(10,10,10,10));
+		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setGraphics();
 	}
 	
-	public void Start() throws IOException
-	{
+	public void Start() throws IOException {
 		JPanel labelPanel = new JPanel(new GridLayout(1,1, 10, 20));
 		labelPanel.setBorder(new EmptyBorder(10,10,10,10));
 		
@@ -59,14 +58,13 @@ public class Graphics {
 	    buttonPanel.add(asymmetricButton);
 	    buttonPanel.add(symmetricButton);
 	    
-	    mainPanel.add(labelPanel);
-	    mainPanel.add(buttonPanel);
+	    this.mainPanel.add(labelPanel);
+	    this.mainPanel.add(buttonPanel);
 	    
 	    setGraphics();
 	}
 	
-	public JTable GetJTable(ArrayList<String[]> fileList)
-	{
+	public JTable GetJTable(ArrayList<String[]> fileList) {
 		String[] columnNames = {"Name",
                 "Comment",
                 "Dimension",
@@ -87,8 +85,7 @@ public class Graphics {
 		return table;
 	}
 	
-	public void displaySymmetric() throws IOException
-	{
+	public void displaySymmetric() throws IOException {
 		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
 		ArrayList<String[]> fileList = sym.GetFiles();
 		JTable table = GetJTable(fileList);
@@ -100,20 +97,18 @@ public class Graphics {
 	        	try {
 	        		String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
 					RunAlgorithm(sel, sym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString())), true);
-
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
 	        }
 	    });
 		
-		mainPanel.removeAll();
-		mainPanel.add(scrollPane);
+		this.mainPanel.removeAll();
+		this.mainPanel.add(scrollPane);
 		setGraphics();
 	}
 	
-	public void displayAsymmetric() throws IOException
-	{
+	public void displayAsymmetric() throws IOException {
 		AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
 		ArrayList<String[]> fileList = asym.GetFiles();
 		JTable table = GetJTable(fileList);
@@ -124,13 +119,12 @@ public class Graphics {
 			public void valueChanged(ListSelectionEvent event) {
 	        	try {
 	        		String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
-					RunAlgorithm (sel ,asym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString())), false);
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
 	        }	    });
-		mainPanel.removeAll();
-		mainPanel.add(scrollPane);
+		this.mainPanel.removeAll();
+		this.mainPanel.add(scrollPane);
 		setGraphics();
 	}
 	
@@ -202,9 +196,9 @@ public class Graphics {
 	}
 	
 	public void setGraphics() {
-		frame.add(mainPanel);
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		this.frame.add(this.mainPanel);
+		this.frame.pack();
+		this.frame.setLocationRelativeTo(null);
+		this.frame.setVisible(true);
 	}
 }
