@@ -16,6 +16,7 @@ public class DisplayGraphics implements GraphicsInterface {
 	private JFrame frame;
 	JPanel mainPanel;
 
+	//Constructor of the main GUI frame object for user interactions
 	public DisplayGraphics(){
 		this.frame = new JFrame();
 		this.mainPanel = new JPanel();
@@ -24,6 +25,8 @@ public class DisplayGraphics implements GraphicsInterface {
 		setGraphics();
 	}
 	
+	//Makes the initial GUI frame, with a user prompt and two selection button for the user 
+	//to select between viewing Symmetric and Asymmetric TSP data files
 	public void Start() throws IOException {
 		JPanel labelPanel = new JPanel(new GridLayout(1,1, 10, 20));
 		labelPanel.setBorder(new EmptyBorder(10,10,10,10));
@@ -67,6 +70,7 @@ public class DisplayGraphics implements GraphicsInterface {
 	    setGraphics();
 	}
 	
+	//Creates a Table panel that takes the list of file information and return an interactive GUI list 
 	public JTable GetJTable(ArrayList<String[]> fileList) {
 		String[] columnNames = {"Name",
                 "Comment",
@@ -88,9 +92,10 @@ public class DisplayGraphics implements GraphicsInterface {
 		return table;
 	}
 	
+	//Create the symmetric data object and retrieve the file in the directory. 
+	//Add the table panel to the main panel and add to main frame
+	//Upon user choosing the data file, passes the file data points to the TSP algorithm.
 	public void displaySymmetric() throws IOException {
-
-
  		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
  		ArrayList<String[]> fileList = sym.GetFileList();
 
@@ -116,6 +121,9 @@ public class DisplayGraphics implements GraphicsInterface {
 		setGraphics();
 	}
 	
+	//Create the asymmetric data object and retrieve the file in the asymmetric data directory. 
+	//Add the table panel to the main panel and add to main frame
+	//Upon user choosing the data file, passes the file data points to the TSP algorithm.
 	public void displayAsymmetric() throws IOException {
 
 		FetchingDataInterfaceMatrix asym = new AsymmetricData(path + "AsymmetricData/");
@@ -130,10 +138,6 @@ public class DisplayGraphics implements GraphicsInterface {
 	        	try {
 
 					 double[][] tsp = asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
-					 ShortestPathInterface gsp = new GetShortestPath(tsp);
-					 gsp.minPath();
-					 System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
-					 System.out.println("Path to take: "+ gsp.getOrderOfCities());
 					 String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
 		        	 RunAlgorithm(null, sel, asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString())), false);
 
@@ -146,6 +150,9 @@ public class DisplayGraphics implements GraphicsInterface {
 		setGraphics();
 	}
 	
+	//Create the TSP algorithm object and run the methods to get shortest path and city order.
+	//If it's asymmetric, show the shortest path and city order list
+	//If it's symmetric, show the shortest path, city order list, and graph of cities
 	public void RunAlgorithm (ArrayList<String[]> cityCoords, String[] info, double[][] tsp, boolean isSym)
 	{
 		GetShortestPath gsp = new GetShortestPath(tsp);
@@ -206,6 +213,7 @@ public class DisplayGraphics implements GraphicsInterface {
 		
 	}
 	
+	//gets the algorithm, plot a graph of cities, and make a new frame for user to view the graph.
 	public JPanel DisplaySymmetricOutput(GetShortestPath gsp, ArrayList<String[]> cityList)
 	{
 		List<Integer> cityOrder = gsp.getOrderOfCities();
@@ -217,7 +225,6 @@ public class DisplayGraphics implements GraphicsInterface {
 				super.paintComponent(g);
 				Graphics2D graph = (Graphics2D) g;
             	graph.setPaint(Color.MAGENTA);
-            	//graph.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         		
             	for (int i = 0; i < plotCoords.size(); i++)
             	{
@@ -238,6 +245,7 @@ public class DisplayGraphics implements GraphicsInterface {
 		return panel;		
 	}
 	
+	//Scale the city coordinates to the size of the view frame and return a list of x y coordinates according to the view frame
 	public ArrayList<double[]> ProcessCoordinates(ArrayList<String[]> cityList, List<Integer> cityOrder)
 	{
 		ArrayList<double[]> coords = new ArrayList<double[]>();
@@ -282,6 +290,7 @@ public class DisplayGraphics implements GraphicsInterface {
 		return coords;
 	}
 	
+	//Create a JLabel object that gets the city order output and returns the jlabel.
 	public JLabel DisplayAsymmetricOutput(GetShortestPath gsp)
 	{
 	    JLabel label = new JLabel("<html><p style=\"width:100px\">"+gsp.getOrderOfCities().toString()+"\"</p></html>");
@@ -289,7 +298,7 @@ public class DisplayGraphics implements GraphicsInterface {
 		return label;
 	}
 	
-	
+	//Updates the graphic of the main frame.
 	public void setGraphics() {
 		this.frame.add(this.mainPanel);
 		this.frame.pack();
