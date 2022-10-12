@@ -8,7 +8,7 @@ import java.io.*;
 interface FetchingDataInterface {
 
     /**
-     * The GetDataPoints parses the data file to get the coordinates 
+     * The GetDataPoints method parses the data file to get the coordinates 
      * for a given city.
      * 
      * @param dir the path to the directory containing the file to be parsed.
