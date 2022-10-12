@@ -41,7 +41,7 @@ public class Data implements FetchingDataInterface{
 	 * 
 	 * @return the list of all the data files available for the user to choose from.
 	 */
-	protected ArrayList<String[]> GetFileList(){
+	public ArrayList<String[]> GetFileList(){
 		return this.fileList;
 	}
 

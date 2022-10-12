@@ -80,7 +80,7 @@ public class Graphics implements GraphicsInterface {
 	}
 	
 	public void displaySymmetric() throws IOException {
-		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
+		FetchingDataInterfaceMatrix sym = new SymmetricData(path + "SymmetricData/");
 		ArrayList<String[]> fileList = sym.GetFileList();
 		JTable table = GetJTable(fileList);
 		table.setDefaultEditor(Object.class, null);
@@ -92,7 +92,7 @@ public class Graphics implements GraphicsInterface {
 	        public void valueChanged(ListSelectionEvent event) {
 	        	try {
 					double[][] tsp = sym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
-					GetShortestPath gsp = new GetShortestPath(tsp);
+					ShortestPathInterface gsp = new GetShortestPath(tsp);
 					gsp.minPath();
 					System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
 					System.out.println("Path to take: "+ gsp.getOrderOfCities());
@@ -108,7 +108,7 @@ public class Graphics implements GraphicsInterface {
 	}
 	
 	public void displayAsymmetric() throws IOException {
-		AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
+		FetchingDataInterfaceMatrix asym = new AsymmetricData(path + "AsymmetricData/");
 		ArrayList<String[]> fileList = asym.GetFileList();
 		JTable table = GetJTable(fileList);
 		table.setDefaultEditor(Object.class, null);
@@ -121,7 +121,7 @@ public class Graphics implements GraphicsInterface {
 			public void valueChanged(ListSelectionEvent event) {
 	        	try {
 					double[][] tsp = asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
-					GetShortestPath gsp = new GetShortestPath(tsp);
+					ShortestPathInterface gsp = new GetShortestPath(tsp);
 					gsp.minPath();
 					System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
 					System.out.println("Path to take: "+ gsp.getOrderOfCities());

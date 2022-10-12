@@ -1,10 +1,11 @@
 import java.io.*;
 
 /**
- * The SymmetricData class is inheriting the Data class and creating a 2-Dimensional
+ * The SymmetricData class is inheriting the Data class and implementing the 
+ * FetchingDataInterfaceMatrix interface and creating a 2-Dimensional
  * matrix of distances between cities.
  */
-public class SymmetricData extends Data {
+public class SymmetricData extends Data implements FetchingDataInterfaceMatrix {
     
     /**
      * Constructor for class SymmetricData, calling constructor of its parent.

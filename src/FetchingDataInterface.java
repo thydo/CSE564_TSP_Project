@@ -17,4 +17,12 @@ interface FetchingDataInterface {
 	 * the files.
     */
     ArrayList<String> GetDataPoints(String dir) throws IOException;
+
+    /**
+	 * The GetFileList method provides the list of all the data files available 
+	 * for the user to choose from.
+	 * 
+	 * @return the list of all the data files available for the user to choose from.
+	 */
+	public ArrayList<String[]> GetFileList();
 }

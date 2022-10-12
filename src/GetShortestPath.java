@@ -86,6 +86,6 @@ public class GetShortestPath implements ShortestPathInterface {
      * @return the minimum distance that saleman will travel.
     */
     public double getMinDistToVisit(){
-        return this.minDist;
+        return Math.round(this.minDist);
     }
 }
