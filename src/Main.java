@@ -16,7 +16,7 @@ public class Main {
 	*/
 	public static void main (String[] args) throws IOException {
 
-		GraphicsInterface graphics = new Graphics();
+		GraphicsInterface graphics = new DisplayGraphics();
 		graphics.Start();
 	}
 }

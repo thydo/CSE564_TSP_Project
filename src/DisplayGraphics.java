@@ -90,27 +90,20 @@ public class DisplayGraphics implements GraphicsInterface {
 	
 	public void displaySymmetric() throws IOException {
 
-// <<<<<<< HEAD
-// 		FetchingDataInterfaceMatrix sym = new SymmetricData(path + "SymmetricData/");
-// 		ArrayList<String[]> fileList = sym.GetFileList();
-		FetchingDataInterface sym = new SymmetricData(path + "SymmetricData/");
-		//--ArrayList<String[]> fileList = sym.GetFiles();
-		//--JTable table = GetJTable(fileList); 
 
-		//---JScrollPane scrollPane = new JScrollPane(table);
+ 		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
+ 		ArrayList<String[]> fileList = sym.GetFileList();
+
+		JTable table = GetJTable(fileList); 
+
+		JScrollPane scrollPane = new JScrollPane(table);
 		
-		//--table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	     //--   public void valueChanged(ListSelectionEvent event) {
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+				public void valueChanged(ListSelectionEvent event) {
 	        	try {
-
-// 					double[][] tsp = sym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
-// 					ShortestPathInterface gsp = new GetShortestPath(tsp);
-// 					gsp.minPath();
-// 					System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
-// 					System.out.println("Path to take: "+ gsp.getOrderOfCities());
-
-	        		//--String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
-					//--RunAlgorithm(sel, sym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString())), true);
+	        		String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
+					double[][] dataPoints = sym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+	        		RunAlgorithm(sym.GetCityCoords(), sel, dataPoints, true);
 
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
@@ -128,22 +121,21 @@ public class DisplayGraphics implements GraphicsInterface {
 		FetchingDataInterfaceMatrix asym = new AsymmetricData(path + "AsymmetricData/");
 		ArrayList<String[]> fileList = asym.GetFileList();
 
-		//-- AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
-		// --ArrayList<String[]> fileList = asym.GetFiles();
-		// --JTable table = GetJTable(fileList);
+		JTable table = GetJTable(fileList);
 		
-		//===JScrollPane scrollPane = new JScrollPane(table);
+		JScrollPane scrollPane = new JScrollPane(table);
 		
-		//--table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent event) {
 	        	try {
 
-					// double[][] tsp = asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
-					// ShortestPathInterface gsp = new GetShortestPath(tsp);
-					// gsp.minPath();
-					// System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
-					// System.out.println("Path to take: "+ gsp.getOrderOfCities());
-	        		//--String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
+					 double[][] tsp = asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+					 ShortestPathInterface gsp = new GetShortestPath(tsp);
+					 gsp.minPath();
+					 System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
+					 System.out.println("Path to take: "+ gsp.getOrderOfCities());
+					 String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
+		        	 RunAlgorithm(null, sel, asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString())), false);
 
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
@@ -180,12 +172,22 @@ public class DisplayGraphics implements GraphicsInterface {
 		JLabel nameLabel = new JLabel("Filename: " + info[0]);
 		JLabel infoLabel = new JLabel("Comment: " + info[1]);		
 		
-		JButton symmetricButton = new JButton("Start Over");
+		JButton startOverButton = new JButton("Start Over");
+		startOverButton.addActionListener(new ActionListener() { 
+			  public void actionPerformed(ActionEvent e){ 
+				try {
+					mainPanel.removeAll();
+					Start();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			  } 
+			} );
 		
 		labelPanel.add(nameLabel);
 		labelPanel.add(infoLabel);
 		
-	    buttonPanel.add(symmetricButton);
+	    buttonPanel.add(startOverButton);
 	    
 	    outputPanel.add(distLabel);
 	    outputPanel.add(pathLabel);
@@ -207,6 +209,7 @@ public class DisplayGraphics implements GraphicsInterface {
 	public JPanel DisplaySymmetricOutput(GetShortestPath gsp, ArrayList<String[]> cityList)
 	{
 		List<Integer> cityOrder = gsp.getOrderOfCities();
+		ArrayList<double[]> plotCoords = ProcessCoordinates(cityList, cityOrder);
 		JPanel panel = new JPanel();
 		JPanel plot = new JPanel(){
 			@Override
@@ -214,28 +217,70 @@ public class DisplayGraphics implements GraphicsInterface {
 				super.paintComponent(g);
 				Graphics2D graph = (Graphics2D) g;
             	graph.setPaint(Color.MAGENTA);
-            	graph.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+            	//graph.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         		
-            	int scale = 30;
-            	for (int city = 0; city < cityOrder.size(); city++)
-        	    {
-        	    	double x = Double.parseDouble(cityList.get(cityOrder.get(city)-1)[1])/scale;
-        	    	double y = Double.parseDouble(cityList.get(cityOrder.get(city)-1)[2])/scale;
-        	    	graph.fill(new Ellipse2D.Double(x - 600,- y + 600,3,3));
-        	    }
+            	for (int i = 0; i < plotCoords.size(); i++)
+            	{
+            		graph.fill(new Ellipse2D.Double(plotCoords.get(i)[0], -plotCoords.get(i)[1]+500,3,3));
+            	}
             }
         };
+		plot.setBorder(new EmptyBorder(20,20,20,20));
+	
 	    JLabel label = new JLabel("<html><p style=\"width:100px\">"+ cityOrder.toString()+"\"</p></html>");
 	    panel.add(label);
 	    JFrame f = new JFrame();
-	    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    f.add(plot);
-	    f.setSize(400,400);
+	    f.setSize(600,600);
 	    f.setLocationRelativeTo(null);
 	    f.setVisible(true);
 		return panel;		
 	}
-
+	
+	public ArrayList<double[]> ProcessCoordinates(ArrayList<String[]> cityList, List<Integer> cityOrder)
+	{
+		ArrayList<double[]> coords = new ArrayList<double[]>();
+		
+		double maxX = 0.0;
+		double maxY = 0.0;
+		double minX = Double.MAX_VALUE;
+		double minY = Double.MAX_VALUE;
+    	for (int city = 0; city < cityOrder.size(); city++)
+	    {
+    		double[] coord = {0,0}; 
+	    	coord[0] = Double.parseDouble(cityList.get(cityOrder.get(city)-1)[1]);
+	    	if (maxX < coord[0])
+	    			maxX = coord[0];
+	    	if (minX > coord[0])
+	    			minX = coord[0];
+	    	
+	    	coord[1] = Double.parseDouble(cityList.get(cityOrder.get(city)-1)[2]);
+	    	if (maxY < coord[1])
+	    			maxY = coord[1];
+	    	if (minY > coord[1])
+	    			minY = coord[1];
+	    	coords.add(coord);
+	    }
+    	
+    	double diffX = maxX - minX;
+    	double diffY = maxY - minY;
+    	
+    	for (int city = 0; city < coords.size(); city++)
+    	{
+    		double[] newCoords = {0,0};
+    		double normX = coords.get(city)[0] - minX;
+    		normX = ((normX/diffX)*400) + 50;
+    		newCoords[0] = normX;
+    		
+    		double normY = coords.get(city)[1] - minY;
+    		normY = ((normY/diffY)*400) + 50;
+    		newCoords[1] = normY;
+    		coords.set(city, newCoords);
+    	}
+    	
+		return coords;
+	}
 	
 	public JLabel DisplayAsymmetricOutput(GetShortestPath gsp)
 	{
@@ -243,6 +288,7 @@ public class DisplayGraphics implements GraphicsInterface {
 
 		return label;
 	}
+	
 	
 	public void setGraphics() {
 		this.frame.add(this.mainPanel);

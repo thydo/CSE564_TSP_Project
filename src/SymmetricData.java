@@ -44,7 +44,6 @@ public class SymmetricData extends Data implements FetchingDataInterfaceMatrix {
      * 
      * @return the 2-Dimensional matrix of distances between cities.
      */
-   // private double[][] makeAdjacencyMatrix() {
     public ArrayList<String[]> GetCityCoords()
     {
     	ArrayList<String[]> cityList = new ArrayList<String[]>();
@@ -57,7 +56,6 @@ public class SymmetricData extends Data implements FetchingDataInterfaceMatrix {
     }
     
     public double[][] makeAdjacencyMatrix(){
-//>>>>>>> 8560c74d6a473b22ee7794b0c149286a68838971
         int cities = this.dataPoints.size();
         double[][] tsp = new double[cities][cities];
 
