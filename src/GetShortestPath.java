@@ -1,17 +1,31 @@
 import java.util.*;
 
-
+/**
+ * The GetShortestPath Class implements the algorithm to compute the 
+ * shortest distance for Travelling Salesman Problem.
+*/
 public class GetShortestPath implements ShortestPathInterface {
     private Set<Integer> visitedCities;
     private List<Integer> orderOfCities;
     private double minDist;
     private double[][] tsp;
-
+   
+    /**
+     * Constructor for class GetShortestPath.
+     * 
+     * @param tsp It will store the matrix representing distances between cities.
+    */
     GetShortestPath(double[][] tsp){
         this.minDist = Double.MAX_VALUE;
         this.tsp = tsp;
     }
-
+    
+    /**
+     * The minPath method will calculate the shortest path for the given set 
+     * of cities along with the order of cities that salesman should follow 
+     * to get this minimum distance. It will then update the object variables
+     * orderOfCities and minDist with the final result.
+    */
 	public void minPath(){  
         for(int srcCity = 0 ; srcCity < tsp.length; srcCity++){
 
@@ -53,6 +67,12 @@ public class GetShortestPath implements ShortestPathInterface {
         }
     }
     
+    /**
+     * The getOrderOfCities method will return the object variable orderOfCities.
+     * 
+     * @return the order of cities to be followed by salesman to get 
+     * the minimum path.
+    */
     public List<Integer> getOrderOfCities(){
         this.orderOfCities = new ArrayList<>();
         this.orderOfCities.addAll(this.visitedCities);
@@ -60,7 +80,12 @@ public class GetShortestPath implements ShortestPathInterface {
         return this.orderOfCities;
     }
 
+    /**
+     * The getMinDistToVisit method will return the object variable minDist.
+     * 
+     * @return the minimum distance that saleman will travel.
+    */
     public double getMinDistToVisit(){
-        return this.minDist;
+        return Math.round(this.minDist);
     }
 }

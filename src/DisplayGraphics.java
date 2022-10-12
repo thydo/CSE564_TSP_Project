@@ -89,19 +89,29 @@ public class DisplayGraphics implements GraphicsInterface {
 	}
 	
 	public void displaySymmetric() throws IOException {
-		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
-		ArrayList<String[]> fileList = sym.GetFileList();
-		JTable table = GetJTable(fileList);
 
-		JScrollPane scrollPane = new JScrollPane(table);
+// <<<<<<< HEAD
+// 		FetchingDataInterfaceMatrix sym = new SymmetricData(path + "SymmetricData/");
+// 		ArrayList<String[]> fileList = sym.GetFileList();
+		FetchingDataInterface sym = new SymmetricData(path + "SymmetricData/");
+		//--ArrayList<String[]> fileList = sym.GetFiles();
+		//--JTable table = GetJTable(fileList); 
+
+		//---JScrollPane scrollPane = new JScrollPane(table);
 		
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
+		//--table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	     //--   public void valueChanged(ListSelectionEvent event) {
 	        	try {
-	        		String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
-					double[][] tsp = sym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
-	        		ArrayList<String[]> cityList = sym.GetCityCoords();
-	        		RunAlgorithm(cityList, sel, tsp , true);
+
+// 					double[][] tsp = sym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+// 					ShortestPathInterface gsp = new GetShortestPath(tsp);
+// 					gsp.minPath();
+// 					System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
+// 					System.out.println("Path to take: "+ gsp.getOrderOfCities());
+
+	        		//--String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
+					//--RunAlgorithm(sel, sym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString())), true);
+
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
@@ -114,18 +124,28 @@ public class DisplayGraphics implements GraphicsInterface {
 	}
 	
 	public void displayAsymmetric() throws IOException {
-		AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
+
+		FetchingDataInterfaceMatrix asym = new AsymmetricData(path + "AsymmetricData/");
 		ArrayList<String[]> fileList = asym.GetFileList();
-		JTable table = GetJTable(fileList);
+
+		//-- AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
+		// --ArrayList<String[]> fileList = asym.GetFiles();
+		// --JTable table = GetJTable(fileList);
 		
-		JScrollPane scrollPane = new JScrollPane(table);
+		//===JScrollPane scrollPane = new JScrollPane(table);
 		
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+		//--table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent event) {
 	        	try {
-	        		String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
-	        		RunAlgorithm(null, sel, asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString())), false);
-	        	} catch (NumberFormatException | IOException e) {
+
+					// double[][] tsp = asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+					// ShortestPathInterface gsp = new GetShortestPath(tsp);
+					// gsp.minPath();
+					// System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
+					// System.out.println("Path to take: "+ gsp.getOrderOfCities());
+	        		//--String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
+
+				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
 	        }	    });
