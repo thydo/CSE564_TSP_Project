@@ -13,7 +13,7 @@ public class GetShortestPath implements ShortestPathInterface {
     /**
      * Constructor for class GetShortestPath.
      * 
-     * @param tsp - It will store the matrix representing distances between cities.
+     * @param tsp It will store the matrix representing distances between cities.
     */
     GetShortestPath(double[][] tsp){
         this.minDist = Double.MAX_VALUE;

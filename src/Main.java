@@ -11,7 +11,7 @@ public class Main {
 	/**
 	 * main method is the driver method to instantiate an object of Graphics class
 	 * 
-	 * @throws IOException - signals if any IO exception occurred while reading
+	 * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
 	*/
 	public static void main (String[] args) throws IOException {

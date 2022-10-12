@@ -73,7 +73,7 @@ public class Data implements FetchingDataInterface{
 	public ArrayList<String> GetDataPoints(String dir) throws IOException {
 		Path p = Paths.get(dir);
 		this.dataPoints = new ArrayList<String>();
-		this.ParseData (p.toFile());
+		this.ParseData(p.toFile());
 		
 		return this.dataPoints;
 	}
