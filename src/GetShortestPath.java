@@ -1,6 +1,7 @@
 import java.util.*;
+
 /**
- * The GetShortestPath Class implements the algorithm to compute the sub-opt 
+ * The GetShortestPath Class implements the algorithm to compute the 
  * shortest distance for Travelling Salesman Problem.
 */
 public class GetShortestPath implements ShortestPathInterface {
