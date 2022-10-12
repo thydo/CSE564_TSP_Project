@@ -6,7 +6,7 @@ import java.util.*;
  * FetchingDataInterfaceMatrix interface and creating a 2-Dimensional
  * matrix of distances between cities.
  */
-public class AsymmetricData extends Data implements DataInterfaceMatrix{
+public class DataAsymmetric extends Data implements DataInterfaceMatrix{
     private int dimension;
     
     /**
@@ -17,7 +17,7 @@ public class AsymmetricData extends Data implements DataInterfaceMatrix{
      * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
      */
-    AsymmetricData(String dir) throws IOException {
+    DataAsymmetric(String dir) throws IOException {
     	super(dir);
     }
     

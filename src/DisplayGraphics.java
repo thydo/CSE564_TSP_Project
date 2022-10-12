@@ -89,7 +89,7 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	public void displaySymmetric() throws IOException {
 
 
-		DataInterfaceMatrix sym = new SymmetricData(path + "SymmetricData/");
+		DataInterfaceMatrix sym = new DataSymmetric(path + "SymmetricData/");
  		ArrayList<String[]> fileList = sym.GetFileList();
 
 		JTable table = GetJTable(fileList); 
@@ -116,7 +116,7 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	
 	public void displayAsymmetric() throws IOException {
 
-		DataInterfaceMatrix asym = new AsymmetricData(path + "AsymmetricData/");
+		DataInterfaceMatrix asym = new DataAsymmetric(path + "AsymmetricData/");
 		ArrayList<String[]> fileList = asym.GetFileList();
 
 		JTable table = GetJTable(fileList);

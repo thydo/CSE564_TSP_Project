@@ -5,7 +5,7 @@ import java.util.*;
  * FetchingDataInterfaceMatrix interface and creating a 2-Dimensional
  * matrix of distances between cities.
  */
-public class SymmetricData extends Data implements DataInterfaceMatrix {
+public class DataSymmetric extends Data implements DataInterfaceMatrix {
     
     /**
      * Constructor for class SymmetricData, calling constructor of its parent.
@@ -15,7 +15,7 @@ public class SymmetricData extends Data implements DataInterfaceMatrix {
      * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
      */
-    SymmetricData(String dir) throws IOException {
+    DataSymmetric(String dir) throws IOException {
     	super(dir);
     }
     
