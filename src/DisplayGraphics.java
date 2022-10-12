@@ -88,7 +88,6 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	
 	public void displaySymmetric() throws IOException {
 
-
 		DataInterfaceMatrix sym = new DataSymmetric(path + "SymmetricData/");
  		ArrayList<String[]> fileList = sym.GetFileList();
 
