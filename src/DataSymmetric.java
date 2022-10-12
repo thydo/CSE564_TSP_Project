@@ -5,7 +5,7 @@ import java.util.*;
  * FetchingDataInterfaceMatrix interface and creating a 2-Dimensional
  * matrix of distances between cities.
  */
-public class SymmetricData extends Data implements FetchingDataInterfaceMatrix {
+public class DataSymmetric extends Data implements DataInterfaceMatrix {
     
     /**
      * Constructor for class SymmetricData, calling constructor of its parent.
@@ -15,7 +15,7 @@ public class SymmetricData extends Data implements FetchingDataInterfaceMatrix {
      * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
      */
-    SymmetricData(String dir) throws IOException {
+    DataSymmetric(String dir) throws IOException {
     	super(dir);
     }
     
@@ -30,6 +30,7 @@ public class SymmetricData extends Data implements FetchingDataInterfaceMatrix {
      * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
      */
+    @Override
     public double[][] GetDataPoints(String dir, int dimension) throws IOException {
     	this.dataPoints = super.GetDataPoints(dir);
     	//this.dataPoints.forEach(item -> {System.out.println (item);});
@@ -38,14 +39,8 @@ public class SymmetricData extends Data implements FetchingDataInterfaceMatrix {
     }
     
 
-    /**
-     * The makeAdjacencyMatrix method uses the parsed data to create 
-     * the 2-Dimensional matrix of distances between cities.
-     * 
-     * @return the 2-Dimensional matrix of distances between cities.
-     */
-    public ArrayList<String[]> GetCityCoords()
-    {
+    @Override
+    public ArrayList<String[]> GetCityCoords() {
     	ArrayList<String[]> cityList = new ArrayList<String[]>();
     	this.dataPoints.forEach(city ->
     	{
@@ -54,7 +49,13 @@ public class SymmetricData extends Data implements FetchingDataInterfaceMatrix {
     	});
     	return cityList;
     }
-    
+
+    /**
+     * The makeAdjacencyMatrix method uses the parsed data to create 
+     * the 2-Dimensional matrix of distances between cities.
+     * 
+     * @return the 2-Dimensional matrix of distances between cities.
+     */
     public double[][] makeAdjacencyMatrix(){
         int cities = this.dataPoints.size();
         double[][] tsp = new double[cities][cities];

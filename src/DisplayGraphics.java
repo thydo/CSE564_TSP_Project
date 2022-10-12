@@ -1,17 +1,15 @@
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
-import javax.swing.plaf.multi.MultiLabelUI;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
-import java.awt.image.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-public class DisplayGraphics implements GraphicsInterface {
+public class DisplayGraphics implements DisplayGraphicsInterface {
 	final String path = "src/Data/";
 	private JFrame frame;
 	JPanel mainPanel;
@@ -96,7 +94,8 @@ public class DisplayGraphics implements GraphicsInterface {
 	//Add the table panel to the main panel and add to main frame
 	//Upon user choosing the data file, passes the file data points to the TSP algorithm.
 	public void displaySymmetric() throws IOException {
- 		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
+
+		DataInterfaceMatrix sym = new DataSymmetric(path + "SymmetricData/");
  		ArrayList<String[]> fileList = sym.GetFileList();
 
 		JTable table = GetJTable(fileList); 
@@ -126,7 +125,7 @@ public class DisplayGraphics implements GraphicsInterface {
 	//Upon user choosing the data file, passes the file data points to the TSP algorithm.
 	public void displayAsymmetric() throws IOException {
 
-		FetchingDataInterfaceMatrix asym = new AsymmetricData(path + "AsymmetricData/");
+		DataInterfaceMatrix asym = new DataAsymmetric(path + "AsymmetricData/");
 		ArrayList<String[]> fileList = asym.GetFileList();
 
 		JTable table = GetJTable(fileList);
@@ -155,7 +154,7 @@ public class DisplayGraphics implements GraphicsInterface {
 	//If it's symmetric, show the shortest path, city order list, and graph of cities
 	public void RunAlgorithm (ArrayList<String[]> cityCoords, String[] info, double[][] tsp, boolean isSym)
 	{
-		GetShortestPath gsp = new GetShortestPath(tsp);
+		ShortestPathInterface gsp = new ShortestPath(tsp);
 		gsp.minPath();
 		System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
 		System.out.println("Path to take: "+ gsp.getOrderOfCities());
@@ -213,8 +212,9 @@ public class DisplayGraphics implements GraphicsInterface {
 		
 	}
 	
+
 	//gets the algorithm, plot a graph of cities, and make a new frame for user to view the graph.
-	public JPanel DisplaySymmetricOutput(GetShortestPath gsp, ArrayList<String[]> cityList)
+	public JPanel DisplaySymmetricOutput(ShortestPathInterface gsp, ArrayList<String[]> cityList)
 	{
 		List<Integer> cityOrder = gsp.getOrderOfCities();
 		ArrayList<double[]> plotCoords = ProcessCoordinates(cityList, cityOrder);
@@ -291,7 +291,7 @@ public class DisplayGraphics implements GraphicsInterface {
 	}
 	
 	//Create a JLabel object that gets the city order output and returns the jlabel.
-	public JLabel DisplayAsymmetricOutput(GetShortestPath gsp)
+	public JLabel DisplayAsymmetricOutput(ShortestPathInterface gsp)
 	{
 	    JLabel label = new JLabel("<html><p style=\"width:100px\">"+gsp.getOrderOfCities().toString()+"\"</p></html>");
 

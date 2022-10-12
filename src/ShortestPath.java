@@ -4,7 +4,7 @@ import java.util.*;
  * The GetShortestPath Class implements the algorithm to compute the 
  * shortest distance for Travelling Salesman Problem.
 */
-public class GetShortestPath implements ShortestPathInterface {
+public class ShortestPath implements ShortestPathInterface {
     private Set<Integer> visitedCities;
     private List<Integer> orderOfCities;
     private double minDist;
@@ -15,7 +15,7 @@ public class GetShortestPath implements ShortestPathInterface {
      * 
      * @param tsp It will store the matrix representing distances between cities.
     */
-    GetShortestPath(double[][] tsp){
+    ShortestPath(double[][] tsp){
         this.minDist = Double.MAX_VALUE;
         this.tsp = tsp;
     }

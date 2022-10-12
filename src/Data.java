@@ -7,7 +7,7 @@ import java.util.*;
  * distance between different cities and returns the parsed data. It also provides
  * the user to choose from the data file they want to use.
  */
-public class Data implements FetchingDataInterface{
+public class Data implements DataInterface{
 	private Path directory;
 	private static BufferedReader br;
 	protected ArrayList<String[]> fileList;

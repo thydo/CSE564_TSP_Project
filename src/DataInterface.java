@@ -5,7 +5,7 @@ import java.io.*;
  * FetchingDataInterface provides the interface for fetching data file containing
  * distance between different cities and to return the parsed data.
 */
-interface FetchingDataInterface {
+interface DataInterface {
 
     /**
      * The GetDataPoints method parses the data file to get the coordinates 
