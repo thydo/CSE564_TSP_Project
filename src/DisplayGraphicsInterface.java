@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JTable;
 
-interface GraphicsInterface {
+interface DisplayGraphicsInterface {
     public void Start() throws IOException;
     public JTable GetJTable(ArrayList<String[]> fileList);
     public void displaySymmetric() throws IOException;

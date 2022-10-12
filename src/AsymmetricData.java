@@ -6,7 +6,7 @@ import java.util.*;
  * FetchingDataInterfaceMatrix interface and creating a 2-Dimensional
  * matrix of distances between cities.
  */
-public class AsymmetricData extends Data implements FetchingDataInterfaceMatrix{
+public class AsymmetricData extends Data implements DataInterfaceMatrix{
     private int dimension;
     
     /**
@@ -32,6 +32,7 @@ public class AsymmetricData extends Data implements FetchingDataInterfaceMatrix{
      * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
      */
+    @Override
     public double[][] GetDataPoints(String dir, int dimension) throws IOException {
     	this.dataPoints = super.GetDataPoints(dir);
         this.dimension = dimension;
@@ -64,6 +65,12 @@ public class AsymmetricData extends Data implements FetchingDataInterfaceMatrix{
         	}
         }
         return tsp;
+    }
+
+    @Override
+    public ArrayList<String[]> GetCityCoords() {
+        
+        return null;
     }
 	
 }

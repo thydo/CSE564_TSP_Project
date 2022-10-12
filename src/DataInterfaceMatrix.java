@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * FetchingDataInterfaceMatrix is extending FetchingDataInterface and provides
@@ -6,7 +7,7 @@ import java.io.*;
  * cities and to return the parsed data in the form of 2-D matrix instead
  * of an ArrayList.
 */
-interface FetchingDataInterfaceMatrix extends FetchingDataInterface {
+interface DataInterfaceMatrix extends DataInterface {
 
     /**
      * The GetDataPoints method parses the data file to get the coordinates 
@@ -20,4 +21,9 @@ interface FetchingDataInterfaceMatrix extends FetchingDataInterface {
     */
     double[][] GetDataPoints(String dir, int dimension) throws IOException;
 
+    /**
+     * 
+     * @return
+     */
+    public ArrayList<String[]> GetCityCoords();
 }

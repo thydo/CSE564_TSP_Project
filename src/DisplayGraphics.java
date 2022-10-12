@@ -1,17 +1,15 @@
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
-import javax.swing.plaf.multi.MultiLabelUI;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
-import java.awt.image.*;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-public class DisplayGraphics implements GraphicsInterface {
+public class DisplayGraphics implements DisplayGraphicsInterface {
 	final String path = "src/Data/";
 	private JFrame frame;
 	JPanel mainPanel;
@@ -91,7 +89,7 @@ public class DisplayGraphics implements GraphicsInterface {
 	public void displaySymmetric() throws IOException {
 
 
- 		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
+		DataInterfaceMatrix sym = new SymmetricData(path + "SymmetricData/");
  		ArrayList<String[]> fileList = sym.GetFileList();
 
 		JTable table = GetJTable(fileList); 
@@ -118,7 +116,7 @@ public class DisplayGraphics implements GraphicsInterface {
 	
 	public void displayAsymmetric() throws IOException {
 
-		FetchingDataInterfaceMatrix asym = new AsymmetricData(path + "AsymmetricData/");
+		DataInterfaceMatrix asym = new AsymmetricData(path + "AsymmetricData/");
 		ArrayList<String[]> fileList = asym.GetFileList();
 
 		JTable table = GetJTable(fileList);
@@ -130,7 +128,7 @@ public class DisplayGraphics implements GraphicsInterface {
 	        	try {
 
 					 double[][] tsp = asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
-					 ShortestPathInterface gsp = new GetShortestPath(tsp);
+					 ShortestPathInterface gsp = new ShortestPath(tsp);
 					 gsp.minPath();
 					 System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
 					 System.out.println("Path to take: "+ gsp.getOrderOfCities());
@@ -148,7 +146,7 @@ public class DisplayGraphics implements GraphicsInterface {
 	
 	public void RunAlgorithm (ArrayList<String[]> cityCoords, String[] info, double[][] tsp, boolean isSym)
 	{
-		GetShortestPath gsp = new GetShortestPath(tsp);
+		ShortestPathInterface gsp = new ShortestPath(tsp);
 		gsp.minPath();
 		System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
 		System.out.println("Path to take: "+ gsp.getOrderOfCities());
@@ -206,7 +204,7 @@ public class DisplayGraphics implements GraphicsInterface {
 		
 	}
 	
-	public JPanel DisplaySymmetricOutput(GetShortestPath gsp, ArrayList<String[]> cityList)
+	public JPanel DisplaySymmetricOutput(ShortestPathInterface gsp, ArrayList<String[]> cityList)
 	{
 		List<Integer> cityOrder = gsp.getOrderOfCities();
 		ArrayList<double[]> plotCoords = ProcessCoordinates(cityList, cityOrder);
@@ -282,7 +280,7 @@ public class DisplayGraphics implements GraphicsInterface {
 		return coords;
 	}
 	
-	public JLabel DisplayAsymmetricOutput(GetShortestPath gsp)
+	public JLabel DisplayAsymmetricOutput(ShortestPathInterface gsp)
 	{
 	    JLabel label = new JLabel("<html><p style=\"width:100px\">"+gsp.getOrderOfCities().toString()+"\"</p></html>");
 
