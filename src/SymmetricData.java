@@ -1,33 +1,31 @@
 import java.io.*;
 import java.util.*;
 
-public class SymmetricData extends Data implements MakeGraphInterface {
-	private ArrayList<String[]> fileList;
-	private ArrayList<String> dataPoints;
+public class SymmetricData extends Data {
+    
     public SymmetricData(String dir) throws IOException {
     	super(dir);
     }
     
-    public ArrayList<String[]> GetFiles() {
+    protected ArrayList<String[]> GetFileList() {
     	this.fileList = super.GetFileList();
-
-    	return fileList;
+    	return this.fileList;
     }
     
-    public double[][] GetData(String dir, int dimension) throws IOException {
+    public double[][] GetDataPoints(String dir, int dimension) throws IOException {
     	this.dataPoints = super.GetDataPoints(dir);
     	this.dataPoints.forEach(item -> {System.out.println (item);});
-    	dataPoints = super.GetDataPoints(dir);
+    	this.dataPoints = super.GetDataPoints(dir);
         return this.makeAdjacencyMatrix();
     }
     
-    public double[][] makeAdjacencyMatrix(){
+    private double[][] makeAdjacencyMatrix() {
         int cities = this.dataPoints.size();
         double[][] tsp = new double[cities][cities];
 
         double[][] coordinates = new double[cities][2];
         for(int i =0; i< cities;i++){
-            String[] split = dataPoints.get(i).split(" ");
+            String[] split = this.dataPoints.get(i).split(" ");
 
             int city = Integer.valueOf(split[0]);
             double cordX = Double.valueOf(split[1]);
@@ -42,7 +40,7 @@ public class SymmetricData extends Data implements MakeGraphInterface {
 
         
         for(int i = 0; i<cities; i++){
-            for(int j = i+1;j<dataPoints.size();j++){
+            for(int j = i+1;j<this.dataPoints.size();j++){
                 double x1 = coordinates[i][0];
                 double y1 = coordinates[i][1];
                 double x2 = coordinates[j][0];

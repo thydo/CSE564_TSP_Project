@@ -1,30 +1,28 @@
 import java.io.*;
 import java.util.*;
 
-public class AsymmetricData extends Data implements MakeGraphInterface{
-	private ArrayList<String[]> fileList;
-	private ArrayList<String> dataPoints;
+public class AsymmetricData extends Data{
     private int dimension;
+    
     public AsymmetricData(String dir) throws IOException {
     	super(dir);
     	this.fileList = super.GetFileList();
     }
     
-    public ArrayList<String[]> GetFiles() {
+    protected ArrayList<String[]> GetFileList() {
     	this.fileList = super.GetFileList();
-
-    	return fileList;
+    	return this.fileList;
     }
     
-    public double[][] GetData(String dir, int dimension) throws IOException {
-    	dataPoints = super.GetDataPoints(dir);
+    public double[][] GetDataPoints(String dir, int dimension) throws IOException {
+    	this.dataPoints = super.GetDataPoints(dir);
         this.dimension = dimension;
         return this.makeAdjacencyMatrix();
     }
     
-    public double[][] makeAdjacencyMatrix(){
+    private double[][] makeAdjacencyMatrix(){
         ArrayList<Double> elements = new ArrayList<Double>();
-        dataPoints.forEach(line -> {
+        this.dataPoints.forEach(line -> {
         	line = line.strip();
         	String[] e = line.split("\\s+");
         	for (int i = 0; i < e.length; i++)
@@ -33,10 +31,10 @@ public class AsymmetricData extends Data implements MakeGraphInterface{
         	}
         });
                 
-        double[][] tsp = new double[dimension][dimension];
-        for (int i = 0; i < dimension; i++)
+        double[][] tsp = new double[this.dimension][this.dimension];
+        for (int i = 0; i < this.dimension; i++)
         {
-        	for (int j = 0; j < dimension; j++)
+        	for (int j = 0; j < this.dimension; j++)
         	{
         		tsp[i][j] = elements.get((i*17)+j);
         	}

@@ -1,7 +1,7 @@
-import java.util.Set;
+import java.util.List;
 
-interface ShortestPathInterface{
+interface ShortestPathInterface {
     void minPath();
-    Set<Integer> getOrderOfCitiesVisited();
+    List<Integer> getOrderOfCities();
     double getMinDistToVisit();
 }

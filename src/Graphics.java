@@ -6,19 +6,19 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.*;
 
-public class Graphics implements GraphicsInterface{
+public class Graphics implements GraphicsInterface {
 	final String path = "src/Data/";
 	private JFrame frame;
 	JPanel mainPanel;
+
 	public Graphics(){
-		frame = new JFrame();
-		mainPanel = new JPanel();
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.frame = new JFrame();
+		this.mainPanel = new JPanel();
+		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setGraphics();
 	}
 	
-	public void Start() throws IOException
-	{
+	public void Start() throws IOException {
 		JPanel labelPanel = new JPanel(new GridLayout(1,1, 10, 20));
 		labelPanel.setBorder(new EmptyBorder(10,10,10,10));
 		
@@ -55,14 +55,13 @@ public class Graphics implements GraphicsInterface{
 	    buttonPanel.add(asymmetricButton);
 	    buttonPanel.add(symmetricButton);
 	    
-	    mainPanel.add(labelPanel);
-	    mainPanel.add(buttonPanel);
+	    this.mainPanel.add(labelPanel);
+	    this.mainPanel.add(buttonPanel);
 	    
 	    setGraphics();
 	}
 	
-	public JTable GetJTable(ArrayList<String[]> fileList)
-	{
+	public JTable GetJTable(ArrayList<String[]> fileList) {
 		String[] columnNames = {"Name",
                 "Comment",
                 "Dimension",
@@ -80,8 +79,7 @@ public class Graphics implements GraphicsInterface{
 		return table;
 	}
 	
-	public void displaySymmetric() throws IOException
-	{
+	public void displaySymmetric() throws IOException {
 		SymmetricData sym = new SymmetricData(path + "SymmetricData/");
 		ArrayList<String[]> fileList = sym.GetFileList();
 		JTable table = GetJTable(fileList);
@@ -93,24 +91,23 @@ public class Graphics implements GraphicsInterface{
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	        	try {
-					double[][] tsp = sym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+					double[][] tsp = sym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
 					GetShortestPath gsp = new GetShortestPath(tsp);
 					gsp.minPath();
 					System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
-					System.out.println("Path to take: "+ gsp.getOrderOfCitiesVisited());
+					System.out.println("Path to take: "+ gsp.getOrderOfCities());
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
 	        }
 	    });
 		
-		mainPanel.removeAll();
-		mainPanel.add(scrollPane);
+		this.mainPanel.removeAll();
+		this.mainPanel.add(scrollPane);
 		setGraphics();
 	}
 	
-	public void displayAsymmetric() throws IOException
-	{
+	public void displayAsymmetric() throws IOException {
 		AsymmetricData asym = new AsymmetricData(path + "AsymmetricData/");
 		ArrayList<String[]> fileList = asym.GetFileList();
 		JTable table = GetJTable(fileList);
@@ -123,24 +120,24 @@ public class Graphics implements GraphicsInterface{
 
 			public void valueChanged(ListSelectionEvent event) {
 	        	try {
-					double[][] tsp = asym.GetData(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+					double[][] tsp = asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
 					GetShortestPath gsp = new GetShortestPath(tsp);
 					gsp.minPath();
 					System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
-					System.out.println("Path to take: "+ gsp.getOrderOfCitiesVisited());
+					System.out.println("Path to take: "+ gsp.getOrderOfCities());
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
 	        }	    });
-		mainPanel.removeAll();
-		mainPanel.add(scrollPane);
+		this.mainPanel.removeAll();
+		this.mainPanel.add(scrollPane);
 		setGraphics();
 	}
 	
 	public void setGraphics() {
-		frame.add(mainPanel);
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		this.frame.add(this.mainPanel);
+		this.frame.pack();
+		this.frame.setLocationRelativeTo(null);
+		this.frame.setVisible(true);
 	}
 }
