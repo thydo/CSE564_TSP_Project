@@ -64,6 +64,7 @@ public class ShortestPath implements ShortestPathInterface {
                 this.visitedCities = currVisitedCities;
                 this.minDist = currMinDist;
             }
+            currVisitedCities.clear();
         }
     }
     
