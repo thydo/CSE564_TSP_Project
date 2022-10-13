@@ -25,6 +25,6 @@ interface DataInterfaceMatrix extends DataInterface {
      * This method will provide us the coordinates for cities to help in plotting.
      * 
      * @return the list of coordinates of cities.
-     */
-    public List<String[]> getCityCoords();
+    */
+    List<String[]> getCityCoords();
 }

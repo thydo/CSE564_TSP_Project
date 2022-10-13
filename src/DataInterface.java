@@ -24,5 +24,5 @@ interface DataInterface {
 	 * 
 	 * @return the list of all the data files available for the user to choose from.
 	 */
-	public List<String[]> getFileList();
+	List<String[]> getFileList();
 }

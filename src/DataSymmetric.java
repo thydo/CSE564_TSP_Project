@@ -60,7 +60,7 @@ public class DataSymmetric extends Data implements DataInterfaceMatrix {
      * 
      * @return the 2-Dimensional matrix of distances between cities.
      */
-    public double[][] makeAdjacencyMatrix() {
+    private double[][] makeAdjacencyMatrix() {
         int cities = this.dataPoints.size();
         double[][] tsp = new double[cities][cities];
         double[][] coordinates = new double[cities][2];
