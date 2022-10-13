@@ -33,8 +33,8 @@ public class DataAsymmetric extends Data implements DataInterfaceMatrix {
 	 * the files.
      */
     @Override
-    public double[][] GetDataPoints(String dir, int dimension) throws IOException {
-    	this.dataPoints = super.GetDataPoints(dir);
+    public double[][] getDataPoints(String dir, int dimension) throws IOException {
+    	this.dataPoints = super.getDataPoints(dir);
         this.dimension = dimension;
         return this.makeAdjacencyMatrix();
     }
@@ -69,10 +69,10 @@ public class DataAsymmetric extends Data implements DataInterfaceMatrix {
      * Since, we are getting 2-D matrix as input from data file for Asymmetric data 
      * and not getting coordinates,our code is unable to plot the points on the frame.
      * 
-     * @return the list of corrdinates of cities.
+     * @return the list of coordinates of cities.
      */
     @Override
-    public List<String[]> GetCityCoords() {
+    public List<String[]> getCityCoords() {
         return null;
     }
 	

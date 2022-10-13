@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  * The DisplayGraphics class implements the DisplayGraphicsInterface providing the 
- * Graphic User Interface for Travelling Salesman Problem.
+ * Graphic User Interface for Traveling Salesman Problem.
  */
 public class DisplayGraphics implements DisplayGraphicsInterface {
 	final String PATH = "src/Data/";
@@ -30,14 +30,14 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	}
 	
 	/**
-	 * Start method will make the intial GUI frame, with a user prompt
+	 * Start method will make the initial GUI frame, with a user prompt
 	 * and two selection button for the user to select between viewing
 	 * Symmetric and Asymmetric TSP data files
 	 * 
 	 * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
 	*/
-	public void Start() throws IOException {
+	public void start() throws IOException {
 		JPanel labelPanel = new JPanel(new GridLayout(1,1, 10, 20));
 		labelPanel.setBorder(new EmptyBorder(10,10,10,10));
 		
@@ -80,14 +80,14 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	}
 	
 	/**
-	 * GetJTable method creates a Table panel that takes the list of file information
+	 * getJTable method creates a Table panel that takes the list of file information
 	 * and provides the user with option to click on the file he wants to process.
 	 * 
 	 * @param fileList list of files available for the user to choose from.
 	 * @return an interactive GUI list containing all the data files available
 	 * for the user to click on.
 	*/
-	public JTable GetJTable(List<String[]> fileList) {
+	public JTable getJTable(List<String[]> fileList) {
 		String[] columnNames = {"Name",
                 "Comment",
                 "Dimension",
@@ -107,7 +107,7 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	}
 	
 	/**
-	 * The displaySymmetric retrieves the choosen file from the directory
+	 * The displaySymmetric retrieves the chosen file from the directory
 	 * and calls the algorithm to calculate the result.
 	 * 
 	 * @throws IOException signals if any IO exception occurred while reading
@@ -115,17 +115,17 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	 */
 	private void displaySymmetric() throws IOException {
 		DataInterfaceMatrix sym = new DataSymmetric(PATH + "SymmetricData/");
- 		List<String[]> fileList = sym.GetFileList();
+ 		List<String[]> fileList = sym.getFileList();
 
-		JTable table = GetJTable(fileList);
+		JTable table = getJTable(fileList);
 		JScrollPane scrollPane = new JScrollPane(table);
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 				public void valueChanged(ListSelectionEvent event) {
 	        	try {
 	        		String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
-					double[][] dataPoints = sym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
-	        		RunAlgorithm(sym.GetCityCoords(), sel, dataPoints, true);
+					double[][] dataPoints = sym.getDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+	        		runAlgorithm(sym.getCityCoords(), sel, dataPoints, true);
 
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
@@ -138,7 +138,7 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	}
 	
 	/**
-	 * The displayAsymmetric retrieves the choosen file from the directory
+	 * The displayAsymmetric retrieves the chosen file from the directory
 	 * and calls the algorithm to calculate the result.
 	 * 
 	 * @throws IOException signals if any IO exception occurred while reading
@@ -146,17 +146,17 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	 */
 	private void displayAsymmetric() throws IOException {
 		DataInterfaceMatrix asym = new DataAsymmetric(PATH + "AsymmetricData/");
-		List<String[]> fileList = asym.GetFileList();
+		List<String[]> fileList = asym.getFileList();
 
-		JTable table = GetJTable(fileList);
+		JTable table = getJTable(fileList);
 		JScrollPane scrollPane = new JScrollPane(table);
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent event) {
 	        	try {
-					 double[][] tsp = asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
+					 double[][] tsp = asym.getDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
 					 String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
-		        	 RunAlgorithm(null, sel, tsp, false);
+		        	 runAlgorithm(null, sel, tsp, false);
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
@@ -168,7 +168,7 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	}
 	
 	/**
-	 * RunAlgorithm method creates the shortestPath object and processes
+	 * runAlgorithm method creates the shortestPath object and processes
 	 * it to get shortest path and city order. 
 	 * If it's symmetric, show the shortest path, city order list, and graph of cities.
 	 * If it's asymmetric, show the shortest path and city order list.
@@ -180,7 +180,7 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	 * @param isSym Boolean variable to indicate whether the data is Symmetric
 	 * or aSymmetric.
 	 */
-	public void RunAlgorithm (List<String[]> cityCoords, String[] info, double[][] tsp, boolean isSym) {
+	public void runAlgorithm (List<String[]> cityCoords, String[] info, double[][] tsp, boolean isSym) {
 		ShortestPathInterface gsp = new ShortestPath(tsp);
 		gsp.minPath();
 		System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
@@ -210,7 +210,7 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 			  public void actionPerformed(ActionEvent e){ 
 				try {
 					mainPanel.removeAll();
-					Start();
+					start();
 				} catch(IOException e1) {
 					e1.printStackTrace();
 				}
@@ -225,9 +225,9 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	    outputPanel.add(distLabel);
 	    outputPanel.add(pathLabel);
 		if (isSym) {
-			outputPanel.add(DisplaySymmetricOutput(gsp, cityCoords));
+			outputPanel.add(displaySymmetricOutput(gsp, cityCoords));
 		} else {
-			outputPanel.add(DisplayAsymmetricOutput(gsp));
+			outputPanel.add(displayAsymmetricOutput(gsp));
 		}
 		this.mainPanel.add(labelPanel);
 		this.mainPanel.add(outputPanel);
@@ -236,16 +236,16 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	}
 	
 	/**
-	 * DisplaySymmetricOutput method plots a graph of cities for Symmetric data
+	 * displaySymmetricOutput method plots a graph of cities for Symmetric data
 	 * on a new frame for user to view the graph.
 	 * 
 	 * @param gsp The object having the order of cities to visit to minimize distance.
 	 * @param cityList The list of cities chosen by user.
 	 * @return the JPanel object representing graph of cities for Symmetric data.
 	*/
-	private JPanel DisplaySymmetricOutput(ShortestPathInterface gsp, List<String[]> cityList) {
+	private JPanel displaySymmetricOutput(ShortestPathInterface gsp, List<String[]> cityList) {
 		List<Integer> cityOrder = gsp.getOrderOfCities();
-		List<double[]> plotCoords = ProcessCoordinates(cityList, cityOrder);
+		List<double[]> plotCoords = processCoordinates(cityList, cityOrder);
 		JPanel panel = new JPanel();
 		JPanel plot = new JPanel(){
 			@Override
@@ -273,13 +273,13 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	}
 	
 	/**
-	 * ProcessCoordinates scales the city coordinates to the size of the view frame
+	 * processCoordinates scales the city coordinates to the size of the view frame
 	 * 
 	 * @param cityList List of all the cities available as a part of file chosen.
 	 * @param cityOrder Order of cities to visit to get the minimum path.
 	 * @return return a list of x y coordinates according to the view frame
 	*/
-	public List<double[]> ProcessCoordinates(List<String[]> cityList, List<Integer> cityOrder) {
+	public List<double[]> processCoordinates(List<String[]> cityList, List<Integer> cityOrder) {
 		List<double[]> coords = new ArrayList<double[]>();
 		
 		double maxX = 0.0;
@@ -323,13 +323,13 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	}
 	
 	/**
-	 * DisplayAsymmetricOutput method creates JLabel object for Asymmetric
+	 * displayAsymmetricOutput method creates JLabel object for Asymmetric
 	 * that gets the city order output.
 	 * 
 	 * @param gsp The object having the order of cities to visit to minimize distance.
 	 * @return the jlabel object representing the result for Asymmetric data.
 	*/
-	private JLabel DisplayAsymmetricOutput(ShortestPathInterface gsp) {
+	private JLabel displayAsymmetricOutput(ShortestPathInterface gsp) {
 	    JLabel label = new JLabel("<html><p style=\"width:100px\">"+gsp.getOrderOfCities().toString()+"\"</p></html>");
 		return label;
 	}

@@ -2,7 +2,7 @@ import java.util.*;
 
 /**
  * The GetShortestPath Class implements the algorithm to compute the 
- * shortest distance for Travelling Salesman Problem.
+ * shortest distance for Traveling Salesman Problem.
 */
 public class ShortestPath implements ShortestPathInterface {
     private Set<Integer> visitedCities;
@@ -64,7 +64,7 @@ public class ShortestPath implements ShortestPathInterface {
                 this.visitedCities = currVisitedCities;
                 this.minDist = currMinDist;
             }
-            currVisitedCities.clear();
+            //currVisitedCities.clear();
         }
     }
     
@@ -84,7 +84,7 @@ public class ShortestPath implements ShortestPathInterface {
     /**
      * The getMinDistToVisit method will return the object variable minDist.
      * 
-     * @return the minimum distance that saleman will travel.
+     * @return the minimum distance that salesman will travel.
     */
     public double getMinDistToVisit(){
         return Math.round(this.minDist);

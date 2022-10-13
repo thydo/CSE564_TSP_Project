@@ -2,7 +2,7 @@ import java.util.List;
 
 /**
  * ShortestPathInterface provides the interface for implementation of the
- * algorithm to compute the shortest distance for Travelling 
+ * algorithm to compute the shortest distance for Traveling 
  * Salesman Problem.
 */
 interface ShortestPathInterface {
@@ -26,7 +26,7 @@ interface ShortestPathInterface {
     /**
      * The getMinDistToVisit method will return the object variable minDist.
      * 
-     * @return the minimum distance that saleman will travel.
+     * @return the minimum distance that salesman will travel.
     */
     double getMinDistToVisit();
 }

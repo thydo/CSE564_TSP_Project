@@ -8,7 +8,7 @@ import java.io.IOException;
 interface DataInterface {
 
     /**
-     * The GetDataPoints method parses the data file to get the coordinates 
+     * The getDataPoints method parses the data file to get the coordinates 
      * for a given city.
      * 
      * @param dir the path to the directory containing the file to be parsed.
@@ -16,7 +16,7 @@ interface DataInterface {
      * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
     */
-    List<String> GetDataPoints(String dir) throws IOException;
+    List<String> getDataPoints(String dir) throws IOException;
 
     /**
 	 * The GetFileList method provides the list of all the data files available 
@@ -24,5 +24,5 @@ interface DataInterface {
 	 * 
 	 * @return the list of all the data files available for the user to choose from.
 	 */
-	public List<String[]> GetFileList();
+	public List<String[]> getFileList();
 }

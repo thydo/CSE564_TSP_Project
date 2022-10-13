@@ -33,19 +33,19 @@ public class DataSymmetric extends Data implements DataInterfaceMatrix {
 	 * the files.
      */
     @Override
-    public double[][] GetDataPoints(String dir, int dimension) throws IOException {
-    	this.dataPoints = super.GetDataPoints(dir);
-    	dataPoints = super.GetDataPoints(dir);
+    public double[][] getDataPoints(String dir, int dimension) throws IOException {
+    	this.dataPoints = super.getDataPoints(dir);
+    	dataPoints = super.getDataPoints(dir);
         return this.makeAdjacencyMatrix();
     }
     
     /**
      * This method will provide us the coordinates for cities to help in plotting.
      * 
-     * @return the list of corrdinates of cities.
+     * @return the list of coordinates of cities.
      */
     @Override
-    public List<String[]> GetCityCoords() {
+    public List<String[]> getCityCoords() {
     	List<String[]> cityList = new ArrayList<String[]>();
     	this.dataPoints.forEach(city -> {
     		String[] c = city.split("\\s+");

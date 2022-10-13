@@ -27,7 +27,7 @@ public class Data implements DataInterface {
 
 		Files.walk(this.directory).forEach(path -> {
 			try {
-				this.ParseInfo(path.toFile());
+				this.parseInfo(path.toFile());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -35,12 +35,12 @@ public class Data implements DataInterface {
 	}
 
 	/**
-	 * The GetFileList method provides the list of all the data files available 
+	 * The getFileList method provides the list of all the data files available 
 	 * for the user to choose from.
 	 * 
 	 * @return the list of all the data files available for the user to choose from.
 	 */
-	public List<String[]> GetFileList() {
+	public List<String[]> getFileList() {
 		return this.fileList;
 	}
 
@@ -51,7 +51,7 @@ public class Data implements DataInterface {
 	 * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
 	 */
-	private void ParseInfo (File file) throws IOException {
+	private void parseInfo (File file) throws IOException {
 		if (!file.isDirectory()) {
 	        br = new BufferedReader(new FileReader(file));
 	        String[] fileInfo = new String[4];
@@ -94,7 +94,7 @@ public class Data implements DataInterface {
 	}
 	
 	/**
-	 * The GetDataPoints parses the data file to get the coordinates 
+	 * The getDataPoints parses the data file to get the coordinates 
      * for a given city.
 	 * 
 	 * @param dir the path to the directory containing the file to be parsed.
@@ -102,7 +102,7 @@ public class Data implements DataInterface {
 	 * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
 	 */
-	public List<String> GetDataPoints(String dir) throws IOException {
+	public List<String> getDataPoints(String dir) throws IOException {
 		Path p = Paths.get(dir);
 		this.dataPoints = new ArrayList<String>();
 		this.ParseData(p.toFile());

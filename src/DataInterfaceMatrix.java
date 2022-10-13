@@ -10,7 +10,7 @@ import java.util.List;
 interface DataInterfaceMatrix extends DataInterface {
 
     /**
-     * The GetDataPoints method parses the data file to get the coordinates 
+     * The getDataPoints method parses the data file to get the coordinates 
      * for a given city.
      * 
      * @param dir the path to the directory containing the file to be parsed.
@@ -19,12 +19,12 @@ interface DataInterfaceMatrix extends DataInterface {
      * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
     */
-    double[][] GetDataPoints(String dir, int dimension) throws IOException;
+    double[][] getDataPoints(String dir, int dimension) throws IOException;
 
     /**
      * This method will provide us the coordinates for cities to help in plotting.
      * 
-     * @return the list of corrdinates of cities.
+     * @return the list of coordinates of cities.
      */
-    public List<String[]> GetCityCoords();
+    public List<String[]> getCityCoords();
 }

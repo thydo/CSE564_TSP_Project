@@ -4,19 +4,19 @@ import javax.swing.JTable;
 
 /**
  * The DisplayGraphicsInterface provides the interface for requirements of
- * Graphic User Interface for Travelling Salesman Problem.
+ * Graphic User Interface for Traveling Salesman Problem.
  */
 interface DisplayGraphicsInterface {
 
     /**
-	 * Start method will make the intial GUI frame, with a user prompt
+	 * Start method will make the initial GUI frame, with a user prompt
 	 * and two selection button for the user to select between viewing
 	 * Symmetric and Asymmetric TSP data files
 	 * 
 	 * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
 	*/
-    public void Start() throws IOException;
+    public void start() throws IOException;
 
     /**
 	 * GetJTable method creates a Table panel that takes the list of file information
@@ -26,7 +26,7 @@ interface DisplayGraphicsInterface {
 	 * @return an interactive GUI list containing all the data files available
 	 * for the user to click on.
 	*/
-    public JTable GetJTable(List<String[]> fileList);
+    public JTable getJTable(List<String[]> fileList);
 
     /**
 	 * RunAlgorithm method creates the shortestPath object and processes
@@ -40,7 +40,7 @@ interface DisplayGraphicsInterface {
 	 * @param isSym Boolean variable to indicate whether the data is Symmetric
 	 * or aSymmetric.
 	 */
-    public void RunAlgorithm (List<String[]> cityCoords, String[] info, double[][] tsp, boolean isSym);
+    public void runAlgorithm (List<String[]> cityCoords, String[] info, double[][] tsp, boolean isSym);
 
     /**
 	 * ProcessCoordinates scales the city coordinates to the size of the view frame
@@ -49,7 +49,7 @@ interface DisplayGraphicsInterface {
 	 * @param cityOrder Order of cities to visit to get the minimum path.
 	 * @return return a list of x y coordinates according to the view frame
 	*/
-    public List<double[]> ProcessCoordinates(List<String[]> cityList, List<Integer> cityOrder);
+    public List<double[]> processCoordinates(List<String[]> cityList, List<Integer> cityOrder);
 
     /**
 	 * This method updates the graphic of the main frame.
