@@ -1,18 +1,18 @@
 import java.io.*;
 import java.nio.file.*;
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
- * The Data class implements FetchingDataInterface and fetches data file containing
+ * The Data class implements DataInterface and fetches data file containing
  * distance between different cities and returns the parsed data. It also provides
  * the user to choose from the data file they want to use.
  */
-public class Data implements DataInterface{
+public class Data implements DataInterface {
 	private Path directory;
 	private static BufferedReader br;
-	protected ArrayList<String[]> fileList;
-	protected ArrayList<String> dataPoints;
-
+	protected List<String[]> fileList;
+	protected List<String> dataPoints;
 
 	/***
 	 * Constructor for class Data.
@@ -24,7 +24,7 @@ public class Data implements DataInterface{
 	Data(String dir) throws IOException {
 		this.fileList = new ArrayList<String[]>();
 		this.directory = Paths.get(dir);
-		
+
 		Files.walk(this.directory).forEach(path -> {
 			try {
 				this.ParseInfo(path.toFile());
@@ -32,7 +32,6 @@ public class Data implements DataInterface{
 				e.printStackTrace();
 			}
 		});
-
 	}
 
 	/**
@@ -41,7 +40,7 @@ public class Data implements DataInterface{
 	 * 
 	 * @return the list of all the data files available for the user to choose from.
 	 */
-	public ArrayList<String[]> GetFileList(){
+	public List<String[]> GetFileList() {
 		return this.fileList;
 	}
 
@@ -57,26 +56,17 @@ public class Data implements DataInterface{
 	        br = new BufferedReader(new FileReader(file));
 	        String[] fileInfo = new String[4];
 	        fileInfo[3] = file.getPath();
-	        while (br.ready())
-	        {
-	        	String next = br.readLine();
 
-	        	if(next.startsWith("NAME", 0))
-	        	{
-	        		fileInfo[0] = next.split("^NAME\\s*:\\s*")[1];
-	        		
-	        	}
-	        	else if(next.startsWith("COMMENT") && fileInfo[1] == null)
-	        	{
+	        while (br.ready()) {
+	        	String next = br.readLine();
+	        	if(next.startsWith("NAME", 0)) {
+	        		fileInfo[0] = next.split("^NAME\\s*:\\s*")[1];	        		
+	        	} else if(next.startsWith("COMMENT") && fileInfo[1] == null) {
 	        		fileInfo[1] = next.split("^COMMENT\\s*:\\s*")[1];
-	        	}
-	        	else if(next.startsWith("DIMENSION", 0))
-	        	{
+	        	} else if(next.startsWith("DIMENSION", 0)) {
 	        		fileInfo[2] = next.split("^DIMENSION\\s*:\\s*")[1];
-	        	}
-	        	else
+	        	} else
 	        		continue;
-	        	
 	        }
 	        this.fileList.add(fileInfo);
 		}
@@ -93,11 +83,10 @@ public class Data implements DataInterface{
 	private void ParseData(File file) throws IOException {
 		if (!file.isDirectory()) {
 	        br = new BufferedReader(new FileReader(file));
-	        while (br.ready())
-	        {
+
+	        while (br.ready()) {
 	        	String next = br.readLine();
-	        	if (!(next.charAt(0)>='A' && next.charAt(0) <= 'Z'))
-	        	{
+	        	if (!(next.charAt(0)>='A' && next.charAt(0) <= 'Z')) {
 	        		this.dataPoints.add(next);
 	        	}
 	        }
@@ -109,15 +98,14 @@ public class Data implements DataInterface{
      * for a given city.
 	 * 
 	 * @param dir the path to the directory containing the file to be parsed.
-     * @return Arraylist of Strings containing the city and its coordinates.
+     * @return List of Strings containing the city and its coordinates.
 	 * @throws IOException signals if any IO exception occurred while reading
 	 * the files.
 	 */
-	public ArrayList<String> GetDataPoints(String dir) throws IOException {
+	public List<String> GetDataPoints(String dir) throws IOException {
 		Path p = Paths.get(dir);
 		this.dataPoints = new ArrayList<String>();
 		this.ParseData(p.toFile());
-		
 		return this.dataPoints;
 	}
 }

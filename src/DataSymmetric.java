@@ -1,14 +1,16 @@
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
+
 /**
- * The SymmetricData class is inheriting the Data class and implementing the 
- * FetchingDataInterfaceMatrix interface and creating a 2-Dimensional
+ * The DataSymmetric class is inheriting the Data class and implementing the 
+ * DataInterfaceMatrix interface and creating a 2-Dimensional
  * matrix of distances between cities.
  */
 public class DataSymmetric extends Data implements DataInterfaceMatrix {
     
     /**
-     * Constructor for class SymmetricData, calling constructor of its parent.
+     * Constructor for class DataSymmetric, calling constructor of its parent.
      * 
      * @param dir the path to the directory containing the list of Symmetric files 
      * to choose from.
@@ -22,7 +24,7 @@ public class DataSymmetric extends Data implements DataInterfaceMatrix {
     /**
      * This is an overridden method of parent class to include dimension 
      * required for the matrix and to return the 2-Dimensional matrix 
-     * instead of ArrayList of points.
+     * instead of List of points.
      * 
      * @param dir the path to the directory containing the file to be parsed.
      * @param dimension dimension for the 2-Dimensional matrix to be formed.
@@ -33,17 +35,19 @@ public class DataSymmetric extends Data implements DataInterfaceMatrix {
     @Override
     public double[][] GetDataPoints(String dir, int dimension) throws IOException {
     	this.dataPoints = super.GetDataPoints(dir);
-    	//this.dataPoints.forEach(item -> {System.out.println (item);});
     	dataPoints = super.GetDataPoints(dir);
         return this.makeAdjacencyMatrix();
     }
     
-
+    /**
+     * This method will provide us the coordinates for cities to help in plotting.
+     * 
+     * @return the list of corrdinates of cities.
+     */
     @Override
-    public ArrayList<String[]> GetCityCoords() {
-    	ArrayList<String[]> cityList = new ArrayList<String[]>();
-    	this.dataPoints.forEach(city ->
-    	{
+    public List<String[]> GetCityCoords() {
+    	List<String[]> cityList = new ArrayList<String[]>();
+    	this.dataPoints.forEach(city -> {
     		String[] c = city.split("\\s+");
     		cityList.add(c);
     	});
@@ -56,11 +60,11 @@ public class DataSymmetric extends Data implements DataInterfaceMatrix {
      * 
      * @return the 2-Dimensional matrix of distances between cities.
      */
-    public double[][] makeAdjacencyMatrix(){
+    public double[][] makeAdjacencyMatrix() {
         int cities = this.dataPoints.size();
         double[][] tsp = new double[cities][cities];
-
         double[][] coordinates = new double[cities][2];
+
         for(int i =0; i< cities;i++){
             String[] split = this.dataPoints.get(i).split(" ");
 
@@ -75,9 +79,8 @@ public class DataSymmetric extends Data implements DataInterfaceMatrix {
         for(int i =0 ; i < tsp.length;i++)
             tsp[i][i] = Double.MAX_VALUE;
 
-        
-        for(int i = 0; i<cities; i++){
-            for(int j = i+1;j<this.dataPoints.size();j++){
+        for(int i = 0; i<cities; i++) {
+            for(int j = i+1;j<this.dataPoints.size();j++) {
                 double x1 = coordinates[i][0];
                 double y1 = coordinates[i][1];
                 double x2 = coordinates[j][0];

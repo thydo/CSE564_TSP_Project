@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 
 /**
@@ -15,7 +14,6 @@ public class Main {
 	 * the files.
 	*/
 	public static void main (String[] args) throws IOException {
-
 		DisplayGraphicsInterface graphics = new DisplayGraphics();
 		graphics.Start();
 	}

@@ -39,7 +39,7 @@ public class ShortestPath implements ShortestPathInterface {
                 int localMinCity = 0;
                 double localMinDist = Double.MAX_VALUE;
 
-                for( int i = 0; i < this.tsp.length; i++){
+                for(int i = 0; i < this.tsp.length; i++){
 
                     if(i == localCity || currVisitedCities.contains(i+1))
                         continue;

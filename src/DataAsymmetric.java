@@ -1,16 +1,16 @@
-import java.io.*;
+import java.io.IOException;
 import java.util.*;
 
 /**
- * The AsymmetricData class is inheriting the Data class and implementing the 
- * FetchingDataInterfaceMatrix interface and creating a 2-Dimensional
+ * The DataAsymmetric class is inheriting the Data class and implementing the 
+ * DataInterfaceMatrix interface and creating a 2-Dimensional
  * matrix of distances between cities.
  */
-public class DataAsymmetric extends Data implements DataInterfaceMatrix{
+public class DataAsymmetric extends Data implements DataInterfaceMatrix {
     private int dimension;
     
     /**
-     * Constructor for class AsymmetricData, calling constructor of its parent.
+     * Constructor for class DataAsymmetric, calling constructor of its parent.
      * 
      * @param dir the path to the directory containing the list of Asymmetric files 
      * to choose from.
@@ -24,7 +24,7 @@ public class DataAsymmetric extends Data implements DataInterfaceMatrix{
     /**
      * This is an overridden method of parent class to include dimension 
      * required for the matrix and to return the 2-Dimensional matrix 
-     * instead of ArrayList of points.
+     * instead of List of points.
      * 
      * @param dir the path to the directory containing the file to be parsed.
      * @param dimension dimension for the 2-Dimensional matrix to be formed.
@@ -45,31 +45,34 @@ public class DataAsymmetric extends Data implements DataInterfaceMatrix{
      * 
      * @return the 2-Dimensional matrix of distances between cities.
      */
-    private double[][] makeAdjacencyMatrix(){
-        ArrayList<Double> elements = new ArrayList<Double>();
+    private double[][] makeAdjacencyMatrix() {
+        List<Double> elements = new ArrayList<Double>();
         this.dataPoints.forEach(line -> {
         	line = line.strip();
         	String[] e = line.split("\\s+");
-        	for (int i = 0; i < e.length; i++)
-        	{
+        	for (int i = 0; i < e.length; i++) {
         		elements.add(Double.parseDouble(e[i]));
         	}
         });
                 
         double[][] tsp = new double[this.dimension][this.dimension];
-        for (int i = 0; i < this.dimension; i++)
-        {
-        	for (int j = 0; j < this.dimension; j++)
-        	{
+        for (int i = 0; i < this.dimension; i++) {
+        	for (int j = 0; j < this.dimension; j++) {
         		tsp[i][j] = elements.get((i*17)+j);
         	}
         }
         return tsp;
     }
 
+    /**
+     * This method will provide us the coordinates for cities to help in plotting.
+     * Since, we are getting 2-D matrix as input from data file for Asymmetric data 
+     * and not getting coordinates,our code is unable to plot the points on the frame.
+     * 
+     * @return the list of corrdinates of cities.
+     */
     @Override
-    public ArrayList<String[]> GetCityCoords() {
-        
+    public List<String[]> GetCityCoords() {
         return null;
     }
 	

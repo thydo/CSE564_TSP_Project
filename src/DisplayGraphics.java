@@ -1,21 +1,27 @@
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.io.IOException;
-import java.util.*;
 import java.util.List;
+import java.util.ArrayList;
 
+/**
+ * The DisplayGraphics class implements the DisplayGraphicsInterface providing the 
+ * Graphic User Interface for Travelling Salesman Problem.
+ */
 public class DisplayGraphics implements DisplayGraphicsInterface {
 	final String path = "src/Data/";
 	private JFrame frame;
 	JPanel mainPanel;
 
-	//Constructor of the main GUI frame object for user interactions
-	public DisplayGraphics(){
+	/**
+	 * Constructor of the main GUI frame object for user interactions.
+	 * This method will call the setGraphics to update the graphic for frame.
+	 */
+	DisplayGraphics(){
 		this.frame = new JFrame();
 		this.mainPanel = new JPanel();
         this.mainPanel.setBorder(new EmptyBorder(10,10,10,10));
@@ -23,8 +29,14 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 		setGraphics();
 	}
 	
-	//Makes the initial GUI frame, with a user prompt and two selection button for the user 
-	//to select between viewing Symmetric and Asymmetric TSP data files
+	/**
+	 * Start method will make the intial GUI frame, with a user prompt
+	 * and two selection button for the user to select between viewing
+	 * Symmetric and Asymmetric TSP data files
+	 * 
+	 * @throws IOException signals if any IO exception occurred while reading
+	 * the files.
+	*/
 	public void Start() throws IOException {
 		JPanel labelPanel = new JPanel(new GridLayout(1,1, 10, 20));
 		labelPanel.setBorder(new EmptyBorder(10,10,10,10));
@@ -33,7 +45,6 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 		buttonPanel.setBorder(new EmptyBorder(10,10,10,10));
 		
 		JLabel dataPromptLabel = new JLabel("Would you like to view Symmetric or Asymmetric data?");
-		
 		JButton symmetricButton = new JButton("Symmetric");
 		
 		symmetricButton.addActionListener (new ActionListener() { 
@@ -68,17 +79,23 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	    setGraphics();
 	}
 	
-	//Creates a Table panel that takes the list of file information and return an interactive GUI list 
-	public JTable GetJTable(ArrayList<String[]> fileList) {
+	/**
+	 * GetJTable method creates a Table panel that takes the list of file information
+	 * and provides the user with option to click on the file he wants to process.
+	 * 
+	 * @param fileList list of files available for the user to choose from.
+	 * @return an interactive GUI list containing all the data files available
+	 * for the user to click on.
+	*/
+	public JTable GetJTable(List<String[]> fileList) {
 		String[] columnNames = {"Name",
                 "Comment",
                 "Dimension",
                 };
+
 		Object[][] data = new Object[fileList.size()][4];
-		for (int i = 0; i < fileList.size(); i++)
-		{
-			for (int j = 0; j < 4; j++)
-			{
+		for (int i = 0; i < fileList.size(); i++) {
+			for (int j = 0; j < 4; j++) {
 				data[i][j] = fileList.get(i)[j];
 			}
 		}
@@ -86,20 +103,21 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 		JTable table = new JTable(data, columnNames);
 		table.setDefaultEditor(Object.class, null);
 		table.setFillsViewportHeight(true);
-		
 		return table;
 	}
 	
-	//Create the symmetric data object and retrieve the file in the directory. 
-	//Add the table panel to the main panel and add to main frame
-	//Upon user choosing the data file, passes the file data points to the TSP algorithm.
-	public void displaySymmetric() throws IOException {
-
+	/**
+	 * The displaySymmetric retrieves the choosen file from the directory
+	 * and calls the algorithm to calculate the result.
+	 * 
+	 * @throws IOException signals if any IO exception occurred while reading
+	 * the files.
+	 */
+	private void displaySymmetric() throws IOException {
 		DataInterfaceMatrix sym = new DataSymmetric(path + "SymmetricData/");
- 		ArrayList<String[]> fileList = sym.GetFileList();
+ 		List<String[]> fileList = sym.GetFileList();
 
-		JTable table = GetJTable(fileList); 
-
+		JTable table = GetJTable(fileList);
 		JScrollPane scrollPane = new JScrollPane(table);
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -114,46 +132,55 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 				}
 	        }
 	    });
-		
 		this.mainPanel.removeAll();
 		this.mainPanel.add(scrollPane);
 		setGraphics();
 	}
 	
-	//Create the asymmetric data object and retrieve the file in the asymmetric data directory. 
-	//Add the table panel to the main panel and add to main frame
-	//Upon user choosing the data file, passes the file data points to the TSP algorithm.
-	public void displayAsymmetric() throws IOException {
-
+	/**
+	 * The displayAsymmetric retrieves the choosen file from the directory
+	 * and calls the algorithm to calculate the result.
+	 * 
+	 * @throws IOException signals if any IO exception occurred while reading
+	 * the files.
+	 */
+	private void displayAsymmetric() throws IOException {
 		DataInterfaceMatrix asym = new DataAsymmetric(path + "AsymmetricData/");
-		ArrayList<String[]> fileList = asym.GetFileList();
+		List<String[]> fileList = asym.GetFileList();
 
 		JTable table = GetJTable(fileList);
-		
 		JScrollPane scrollPane = new JScrollPane(table);
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 			public void valueChanged(ListSelectionEvent event) {
 	        	try {
-
 					 double[][] tsp = asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString()));
 					 String[] sel = {fileList.get(table.getSelectedRow())[0].toString(), fileList.get(table.getSelectedRow())[1].toString()};
-		        	 RunAlgorithm(null, sel, asym.GetDataPoints(fileList.get(table.getSelectedRow())[3].toString(), Integer.parseInt(fileList.get(table.getSelectedRow())[2].toString())), false);
-
+		        	 RunAlgorithm(null, sel, tsp, false);
 				} catch (NumberFormatException | IOException e) {
 					e.printStackTrace();
 				}
-	        }	    });
+	        }
+		});
 		this.mainPanel.removeAll();
 		this.mainPanel.add(scrollPane);
 		setGraphics();
 	}
 	
-	//Create the TSP algorithm object and run the methods to get shortest path and city order.
-	//If it's asymmetric, show the shortest path and city order list
-	//If it's symmetric, show the shortest path, city order list, and graph of cities
-	public void RunAlgorithm (ArrayList<String[]> cityCoords, String[] info, double[][] tsp, boolean isSym)
-	{
+	/**
+	 * RunAlgorithm method creates the shortestPath object and processes
+	 * it to get shortest path and city order. 
+	 * If it's symmetric, show the shortest path, city order list, and graph of cities.
+	 * If it's asymmetric, show the shortest path and city order list.
+	 * 
+	 * @param cityCoords coordinates of the cities to process to get shortestPath. 
+	 * Null if the data is Asymmetric.
+	 * @param info Contains information regarding the row selected by the user.
+	 * @param tsp 2-D matrix containing distance between different cities.
+	 * @param isSym Boolean variable to indicate whether the data is Symmetric
+	 * or aSymmetric.
+	 */
+	public void RunAlgorithm (List<String[]> cityCoords, String[] info, double[][] tsp, boolean isSym) {
 		ShortestPathInterface gsp = new ShortestPath(tsp);
 		gsp.minPath();
 		System.out.println("Minimum Distance: " + gsp.getMinDistToVisit());
@@ -184,7 +211,7 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 				try {
 					mainPanel.removeAll();
 					Start();
-				} catch (IOException e1) {
+				} catch(IOException e1) {
 					e1.printStackTrace();
 				}
 			  } 
@@ -197,27 +224,28 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	    
 	    outputPanel.add(distLabel);
 	    outputPanel.add(pathLabel);
-		if (isSym)
-		{
+		if (isSym) {
 			outputPanel.add(DisplaySymmetricOutput(gsp, cityCoords));
-		}
-		else
-		{
+		} else {
 			outputPanel.add(DisplayAsymmetricOutput(gsp));
 		}
 		this.mainPanel.add(labelPanel);
 		this.mainPanel.add(outputPanel);
 		this.mainPanel.add(buttonPanel);
 		setGraphics();
-		
 	}
 	
-
-	//gets the algorithm, plot a graph of cities, and make a new frame for user to view the graph.
-	public JPanel DisplaySymmetricOutput(ShortestPathInterface gsp, ArrayList<String[]> cityList)
-	{
+	/**
+	 * DisplaySymmetricOutput method plots a graph of cities for Symmetric data
+	 * on a new frame for user to view the graph.
+	 * 
+	 * @param gsp The object having the order of cities to visit to minimize distance.
+	 * @param cityList The list of cities chosen by user.
+	 * @return the JPanel object representing graph of cities for Symmetric data.
+	*/
+	private JPanel DisplaySymmetricOutput(ShortestPathInterface gsp, List<String[]> cityList) {
 		List<Integer> cityOrder = gsp.getOrderOfCities();
-		ArrayList<double[]> plotCoords = ProcessCoordinates(cityList, cityOrder);
+		List<double[]> plotCoords = ProcessCoordinates(cityList, cityOrder);
 		JPanel panel = new JPanel();
 		JPanel plot = new JPanel(){
 			@Override
@@ -226,8 +254,7 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 				Graphics2D graph = (Graphics2D) g;
             	graph.setPaint(Color.MAGENTA);
         		
-            	for (int i = 0; i < plotCoords.size(); i++)
-            	{
+            	for(int i = 0; i < plotCoords.size(); i++) {
             		graph.fill(new Ellipse2D.Double(plotCoords.get(i)[0], -plotCoords.get(i)[1]+500,3,3));
             	}
             }
@@ -245,18 +272,23 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 		return panel;		
 	}
 	
-	//Scale the city coordinates to the size of the view frame and return a list of x y coordinates according to the view frame
-	public ArrayList<double[]> ProcessCoordinates(ArrayList<String[]> cityList, List<Integer> cityOrder)
-	{
-		ArrayList<double[]> coords = new ArrayList<double[]>();
+	/**
+	 * ProcessCoordinates scales the city coordinates to the size of the view frame
+	 * 
+	 * @param cityList List of all the cities available as a part of file chosen.
+	 * @param cityOrder Order of cities to visit to get the minimum path.
+	 * @return return a list of x y coordinates according to the view frame
+	*/
+	public List<double[]> ProcessCoordinates(List<String[]> cityList, List<Integer> cityOrder) {
+		List<double[]> coords = new ArrayList<double[]>();
 		
 		double maxX = 0.0;
 		double maxY = 0.0;
 		double minX = Double.MAX_VALUE;
 		double minY = Double.MAX_VALUE;
-    	for (int city = 0; city < cityOrder.size(); city++)
-	    {
-    		double[] coord = {0,0}; 
+    	for (int city = 0; city < cityOrder.size(); city++) {
+    		double[] coord = {0,0};
+
 	    	coord[0] = Double.parseDouble(cityList.get(cityOrder.get(city)-1)[1]);
 	    	if (maxX < coord[0])
 	    			maxX = coord[0];
@@ -268,15 +300,15 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	    			maxY = coord[1];
 	    	if (minY > coord[1])
 	    			minY = coord[1];
+
 	    	coords.add(coord);
 	    }
-    	
     	double diffX = maxX - minX;
     	double diffY = maxY - minY;
     	
-    	for (int city = 0; city < coords.size(); city++)
-    	{
+    	for (int city = 0; city < coords.size(); city++) {
     		double[] newCoords = {0,0};
+
     		double normX = coords.get(city)[0] - minX;
     		normX = ((normX/diffX)*400) + 50;
     		newCoords[0] = normX;
@@ -284,21 +316,27 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
     		double normY = coords.get(city)[1] - minY;
     		normY = ((normY/diffY)*400) + 50;
     		newCoords[1] = normY;
+
     		coords.set(city, newCoords);
     	}
-    	
 		return coords;
 	}
 	
-	//Create a JLabel object that gets the city order output and returns the jlabel.
-	public JLabel DisplayAsymmetricOutput(ShortestPathInterface gsp)
-	{
+	/**
+	 * DisplayAsymmetricOutput method creates JLabel object for Asymmetric
+	 * that gets the city order output.
+	 * 
+	 * @param gsp The object having the order of cities to visit to minimize distance.
+	 * @return the jlabel object representing the result for Asymmetric data.
+	*/
+	private JLabel DisplayAsymmetricOutput(ShortestPathInterface gsp) {
 	    JLabel label = new JLabel("<html><p style=\"width:100px\">"+gsp.getOrderOfCities().toString()+"\"</p></html>");
-
 		return label;
 	}
 	
-	//Updates the graphic of the main frame.
+	/**
+	 * This method updates the graphic of the main frame.
+	*/
 	public void setGraphics() {
 		this.frame.add(this.mainPanel);
 		this.frame.pack();

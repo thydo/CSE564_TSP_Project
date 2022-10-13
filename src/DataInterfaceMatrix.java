@@ -1,11 +1,11 @@
-import java.io.*;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.List;
 
 /**
- * FetchingDataInterfaceMatrix is extending FetchingDataInterface and provides
+ * DataInterfaceMatrix is extending DataInterface and provides
  * the interface for fetching data file containing distance between different
  * cities and to return the parsed data in the form of 2-D matrix instead
- * of an ArrayList.
+ * of an List.
 */
 interface DataInterfaceMatrix extends DataInterface {
 
@@ -22,8 +22,9 @@ interface DataInterfaceMatrix extends DataInterface {
     double[][] GetDataPoints(String dir, int dimension) throws IOException;
 
     /**
+     * This method will provide us the coordinates for cities to help in plotting.
      * 
-     * @return
+     * @return the list of corrdinates of cities.
      */
-    public ArrayList<String[]> GetCityCoords();
+    public List<String[]> GetCityCoords();
 }
