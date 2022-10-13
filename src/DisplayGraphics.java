@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Graphic User Interface for Travelling Salesman Problem.
  */
 public class DisplayGraphics implements DisplayGraphicsInterface {
-	final String path = "src/Data/";
+	final String PATH = "src/Data/";
 	private JFrame frame;
 	JPanel mainPanel;
 
@@ -114,7 +114,7 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	 * the files.
 	 */
 	private void displaySymmetric() throws IOException {
-		DataInterfaceMatrix sym = new DataSymmetric(path + "SymmetricData/");
+		DataInterfaceMatrix sym = new DataSymmetric(PATH + "SymmetricData/");
  		List<String[]> fileList = sym.GetFileList();
 
 		JTable table = GetJTable(fileList);
@@ -145,7 +145,7 @@ public class DisplayGraphics implements DisplayGraphicsInterface {
 	 * the files.
 	 */
 	private void displayAsymmetric() throws IOException {
-		DataInterfaceMatrix asym = new DataAsymmetric(path + "AsymmetricData/");
+		DataInterfaceMatrix asym = new DataAsymmetric(PATH + "AsymmetricData/");
 		List<String[]> fileList = asym.GetFileList();
 
 		JTable table = GetJTable(fileList);
